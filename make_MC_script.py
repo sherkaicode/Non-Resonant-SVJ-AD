@@ -64,13 +64,13 @@ atlas_info = {
     },
     "Zjets": {
         "jsons": [
-            "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_BFilter_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_CFilterBVeto_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_CVetoBVeto_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_BFilter_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CFilterBVeto_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CVetoBVeto_file_index.json",
-            "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_BFilter_file_index.json", # Not Found
+            # "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_BFilter_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_CFilterBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_CVetoBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_BFilter_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CFilterBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CVetoBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_BFilter_file_index.json", # Not Found
             "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CFilterBVeto_file_index.json",
             "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CVetoBVeto_file_index.json"
         ],

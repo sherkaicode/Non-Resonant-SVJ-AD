@@ -1,16 +1,1 @@
 Plugin No such file or directory loading sec.protocol libXrdSeckrb5-5.so
-Traceback (most recent call last):
-  File "/ether/aegis/Research_HEP/make_data_script.py", line 228, in <module>
-    reduce_root(selected_period, run, link, c)
-  File "/ether/aegis/Research_HEP/make_data_script.py", line 111, in reduce_root
-    df.Snapshot("CollectionTree", f"{outdir}/root_{run}_{c}.root", rel_branches)
-TypeError: Template method resolution failed:
-  none of the 3 overloaded methods succeeded. Full details:
-  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, initializer_list<string> columnList, const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
-    runtime_error: Unknown columns: "AnalysisMuonsAuxDyn.muonType", "AnalysisMuonsAuxDyn.quality"
-  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, const ROOT::RDF::ColumnNames_t& columnList, const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
-    runtime_error: Unknown columns: "AnalysisMuonsAuxDyn.muonType", "AnalysisMuonsAuxDyn.quality"
-  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, string_view columnNameRegexp = "", const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
-    TypeError: could not convert argument 3 (bad argument type for built-in operation)
-  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, initializer_list<string> columnList, const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
-    runtime_error: Unknown columns: "AnalysisMuonsAuxDyn.muonType", "AnalysisMuonsAuxDyn.quality"
