@@ -1,0 +1,42 @@
+Logging to logs/2025-09-18_run11_Diboson.txt
+
+
+=== Processing Process Diboson ===
+
+--- Dataset mc20_13TeV_MC_Sh_2211_WlvZqq: 8 files ---
+Selected 5 files (60%)
+[1/5] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191237._000014.pool.root.1
+[2/5] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191237._000196.pool.root.1
+[3/5] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191237._000018.pool.root.1
+[4/5] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191237._000013.pool.root.1
+[5/5] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191237._000021.pool.root.1
+
+--- Dataset mc20_13TeV_MC_Sh_2211_WqqZvv: 4 files ---
+Selected 3 files (60%)
+[1/3] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191655._000037.pool.root.1
+[2/3] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191655._000103.pool.root.1
+[3/3] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191655._000036.pool.root.1
+
+--- Dataset mc20_13TeV_MC_Sh_2211_ZqqZvv: 2 files ---
+Selected 2 files (60%)
+[1/2] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191895._000011.pool.root.1
+[2/2] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191895._000012.pool.root.1
+
+--- Dataset mc20_13TeV_MC_Sh_2211_WlvWqq: 22 files ---
+Selected 14 files (60%)
+[1/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000199.pool.root.1
+[2/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000196.pool.root.1
+[3/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000123.pool.root.1
+[4/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000201.pool.root.1
+[5/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000197.pool.root.1
+[6/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000048.pool.root.1
+[7/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000195.pool.root.1
+[8/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000193.pool.root.1
+[9/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000200.pool.root.1
+[10/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000194.pool.root.1
+[11/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000050.pool.root.1
+[12/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000043.pool.root.1
+[13/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000045.pool.root.1
+[14/14] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191519._000042.pool.root.1
+
+✅ Finished processing Diboson. Results saved in Dataset_ver2/MC/processed/Diboson/

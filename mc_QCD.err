@@ -1,0 +1,3 @@
+Plugin No such file or directory loading sec.protocol libXrdSeckrb5-5.so
+/ether/aegis/Research_HEP/make_MC_script.py:240: RuntimeWarning: divide by zero encountered in divide
+  if np.sum(np.log(pb/(fc*pc + (1-fc)*pu)) > cut_77) >= 2: continue

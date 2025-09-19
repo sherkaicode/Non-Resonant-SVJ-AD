@@ -1,0 +1,37 @@
+Plugin No such file or directory loading sec.protocol libXrdSeckrb5-5.so
+/ether/aegis/Research_HEP/make_MC_script.py:240: RuntimeWarning: divide by zero encountered in divide
+  if np.sum(np.log(pb/(fc*pc + (1-fc)*pu)) > cut_77) >= 2: continue
+Error in <TNetXNGFile::Open>: [ERROR] Server responded with an error: [3011] Unable to open file /eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37865848._000014.pool.root.1; No such file or directory
+
+Error in <TNetXNGFile::Open>: [ERROR] Server responded with an error: [3011] Unable to open file /eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37865848._000014.pool.root.1; No such file or directory
+
+Error in <TNetXNGFile::Open>: [ERROR] Server responded with an error: [3011] Unable to open file /eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37865848._000014.pool.root.1; No such file or directory
+
+Error in <TNetXNGFile::Open>: [ERROR] Server responded with an error: [3011] Unable to open file /eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37865848._000014.pool.root.1; No such file or directory
+
+Error in <TNetXNGFile::Open>: [ERROR] Server responded with an error: [3011] Unable to open file /eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37865848._000014.pool.root.1; No such file or directory
+
+Error in <TNetXNGFile::Open>: [ERROR] Server responded with an error: [3011] Unable to open file /eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37865848._000014.pool.root.1; No such file or directory
+
+Traceback (most recent call last):
+  File "/ether/aegis/Research_HEP/make_MC_script.py", line 288, in <module>
+    reduce_root(process_to_run, dataset_name, link, c)
+  File "/ether/aegis/Research_HEP/make_MC_script.py", line 169, in reduce_root
+    df.Snapshot("CollectionTree", f"{outdir}/root_{c}.root", rel_branches)
+TypeError: Template method resolution failed:
+  none of the 3 overloaded methods succeeded. Full details:
+  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, initializer_list<string> columnList, const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
+    runtime_error: GetBranchNames: error in opening the tree CollectionTree
+  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, const ROOT::RDF::ColumnNames_t& columnList, const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
+    runtime_error: GetBranchNames: error in opening the tree CollectionTree
+  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, string_view columnNameRegexp = "", const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
+    TypeError: could not convert argument 3 (bad argument type for built-in operation)
+  none of the 3 overloaded methods succeeded. Full details:
+  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, initializer_list<string> columnList, const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
+    runtime_error: GetBranchNames: error in opening the tree CollectionTree
+  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, const ROOT::RDF::ColumnNames_t& columnList, const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
+    runtime_error: GetBranchNames: error in opening the tree CollectionTree
+  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, string_view columnNameRegexp = "", const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
+    TypeError: could not convert argument 3 (bad argument type for built-in operation)
+  ROOT::RDF::RResultPtr<ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void> > ROOT::RDF::RInterface<ROOT::Detail::RDF::RLoopManager,void>::Snapshot(string_view treename, string_view filename, initializer_list<string> columnList, const ROOT::RDF::RSnapshotOptions& options = RSnapshotOptions()) =>
+    runtime_error: GetBranchNames: error in opening the tree CollectionTree
