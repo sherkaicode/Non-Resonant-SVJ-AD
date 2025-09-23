@@ -3,3 +3,4 @@ Plugin No such file or directory loading sec.protocol libXrdSeckrb5-5.so
   if np.sum(np.log(pb/(fc*pc + (1-fc)*pu)) > cut_77) >= 2: continue
 /ether/aegis/Research_HEP/make_data_script.py:183: RuntimeWarning: divide by zero encountered in log
   if np.sum(np.log(pb/(fc*pc + (1-fc)*pu)) > cut_77) >= 2: continue
+Error in <TUnixSystem::GetHostByName>: getaddrinfo failed for 'eospublic.cern.ch': Temporary failure in name resolution

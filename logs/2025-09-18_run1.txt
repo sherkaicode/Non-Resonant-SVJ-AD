@@ -1,0 +1,53 @@
+Logging to logs/2025-09-18_run1.txt
+
+
+=== Processing Period C ===
+
+--- Processing run: 302393
+
+--- Processing run: 302391
+
+--- Processing run: 302380
+
+--- Processing run: 302347
+
+--- Processing run: 302300
+
+--- Processing run: 302269
+
+--- Processing run: 302265
+
+--- Processing run: 302137
+
+--- Processing run: 302053
+
+--- Processing run: 301973
+
+--- Processing run: 301932
+
+--- Processing run: 301918
+
+--- Processing run: 301915
+
+--- Processing run: 301912
+Summary for Period C:
+  Runs processed:   14
+  Reduced ROOTs:    5099
+  Dataset files:    5099
+=================================
+un: 299340
+
+--- Processing run: 299343
+
+--- Processing run: 299390
+
+--- Processing run: 299584
+
+--- Processing run: 300279
+
+--- Processing run: 300287
+Summary for Period A:
+  Runs processed:   24
+  Reduced ROOTs:    2999
+  Dataset files:    2999
+=================================

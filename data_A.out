@@ -1,0 +1,57 @@
+Logging to logs/2025-09-18_run1.txt
+
+
+=== Processing Period A ===
+
+--- Processing run: 297730
+
+--- Processing run: 298595
+
+--- Processing run: 298609
+
+--- Processing run: 298633
+
+--- Processing run: 298687
+
+--- Processing run: 298690
+
+--- Processing run: 298771
+
+--- Processing run: 298773
+
+--- Processing run: 298862
+
+--- Processing run: 298967
+
+--- Processing run: 299055
+
+--- Processing run: 299144
+
+--- Processing run: 299147
+
+--- Processing run: 299184
+
+--- Processing run: 299241
+
+--- Processing run: 299243
+
+--- Processing run: 299288
+
+--- Processing run: 299315
+
+--- Processing run: 299340
+
+--- Processing run: 299343
+
+--- Processing run: 299390
+
+--- Processing run: 299584
+
+--- Processing run: 300279
+
+--- Processing run: 300287
+Summary for Period A:
+  Runs processed:   24
+  Reduced ROOTs:    2999
+  Dataset files:    2999
+=================================

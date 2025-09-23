@@ -1,0 +1,25 @@
+Logging to logs/2025-09-18_run3.txt
+
+
+=== Processing Period E ===
+
+--- Processing run: 303892
+
+--- Processing run: 303846
+
+--- Processing run: 303832
+
+--- Processing run: 303819
+
+--- Processing run: 303817
+
+--- Processing run: 303811
+
+--- Processing run: 303726
+
+--- Processing run: 303638
+Summary for Period E:
+  Runs processed:   8
+  Reduced ROOTs:    2519
+  Dataset files:    2519
+=================================

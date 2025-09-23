@@ -1,0 +1,35 @@
+Logging to logs/2025-09-18_run3.txt
+
+
+=== Processing Period F ===
+
+--- Processing run: 304494
+
+--- Processing run: 304431
+
+--- Processing run: 304409
+
+--- Processing run: 304337
+
+--- Processing run: 304308
+
+--- Processing run: 304243
+
+--- Processing run: 304211
+
+--- Processing run: 304198
+
+--- Processing run: 304178
+
+--- Processing run: 304128
+
+--- Processing run: 304008
+
+--- Processing run: 304006
+
+--- Processing run: 303943
+Summary for Period F:
+  Runs processed:   13
+  Reduced ROOTs:    4197
+  Dataset files:    4197
+=================================

@@ -1,8 +1,0 @@
-Logging to logs/2025-09-19_run2_Zjets.txt
-
-
-=== Processing Process Zjets ===
-
---- Dataset mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CFilterBVeto: 124 files ---
-Selected 75 files (60%)
-[1/75] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37865857._000038.pool.root.1

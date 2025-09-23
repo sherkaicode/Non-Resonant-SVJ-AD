@@ -64,15 +64,15 @@ atlas_info = {
     },
     "Zjets": {
         "jsons": [
-            # "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_BFilter_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_CFilterBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_CVetoBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_BFilter_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CFilterBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CVetoBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_BFilter_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_CFilterBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Zmumu_maxHTpTV2_CVetoBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_BFilter_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CFilterBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CVetoBVeto_file_index.json",
             # "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_BFilter_file_index.json", # Not Found
-            "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CFilterBVeto_file_index.json",
-            "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CVetoBVeto_file_index.json"
+            # "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CFilterBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CVetoBVeto_file_index.json"
         ],
         "file": "ATLAS_boson.json"
     },
@@ -144,7 +144,7 @@ for process, info in atlas_info.items():
     }
 
 # ------------------ REDUCE ROOT ------------------
-path_reduce_root = "Dataset_ver2/MC/reduce_root"
+path_reduce_root = "Dataset_ver3/MC/reduce_root"
 os.makedirs(path_reduce_root, exist_ok=True)
 
 rel_branches = [
@@ -157,7 +157,8 @@ rel_branches = [
     "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pb", "AnalysisJetsAuxDyn.m",
     "AnalysisLargeRJetsAuxDyn.pt", "AnalysisLargeRJetsAuxDyn.eta", "AnalysisLargeRJetsAuxDyn.phi",
     "AnalysisLargeRJetsAuxDyn.m", "AnalysisLargeRJetsAuxDyn.Tau1_wta",
-    "AnalysisLargeRJetsAuxDyn.Tau2_wta", "AnalysisLargeRJetsAuxDyn.Tau3_wta"
+    "AnalysisLargeRJetsAuxDyn.Tau2_wta", "AnalysisLargeRJetsAuxDyn.Tau3_wta", 
+    "EventInfoAuxDyn.mcEventWeights"
 ]
 
 def reduce_root(process, dataset, link, c):
@@ -184,7 +185,8 @@ def make_dataset(process, dataset, c, reduce_root_file, outdir):
         "MET_Core_AnalysisMETAuxDyn_mpx", "MET_Core_AnalysisMETAuxDyn_mpy", "MET_Core_AnalysisMETAuxDyn_sumet",
         "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pu", "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pc", "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pb",
         "AnalysisLargeRJetsAuxDyn_pt", "AnalysisLargeRJetsAuxDyn_eta", "AnalysisLargeRJetsAuxDyn_phi",
-        "AnalysisLargeRJetsAuxDyn_m", "AnalysisLargeRJetsAuxDyn_Tau1_wta", "AnalysisLargeRJetsAuxDyn_Tau2_wta", "AnalysisLargeRJetsAuxDyn_Tau3_wta"
+        "AnalysisLargeRJetsAuxDyn_m", "AnalysisLargeRJetsAuxDyn_Tau1_wta", "AnalysisLargeRJetsAuxDyn_Tau2_wta", "AnalysisLargeRJetsAuxDyn_Tau3_wta",
+        "EventInfoAuxDyn_mcEventWeights"
     ]
 
     data = df.AsNumpy(branches)
@@ -193,7 +195,7 @@ def make_dataset(process, dataset, c, reduce_root_file, outdir):
     with open(outfile, "w") as fout:
         fout.write("pT_j1 eta_j1 phi_j1 pT_j2 eta_j2 phi_j2 m_jj "
                    "tau21_j1 tau21_j2 tau32_j1 tau32_j2 "
-                   "met phi_met min_dPhi ht\n")
+                   "met phi_met min_dPhi ht weight\n")
 
         n_events = len(data["AnalysisJetsAuxDyn_pt"])
         for i in range(n_events):
@@ -253,6 +255,7 @@ def make_dataset(process, dataset, c, reduce_root_file, outdir):
             tau32_j2 = tau3[1]/tau2[1] if tau2[1] > 0 else -1
             min_dPhi = np.min(dphis)
             ht = np.sum(jet_pt)
+            weight = data["EventInfoAuxDyn_mcEventWeights"][i][0]
 
             row = [
                 fat_pt[0], fat_eta[0], fat_phi[0],
@@ -260,7 +263,7 @@ def make_dataset(process, dataset, c, reduce_root_file, outdir):
                 m_jj,
                 tau21_j1, tau21_j2,
                 tau32_j1, tau32_j2,
-                met, phi_met, min_dPhi, ht
+                met, phi_met, min_dPhi, ht, weight
             ]
             fout.write(" ".join(map(str, row)) + "\n")
 
@@ -280,7 +283,7 @@ for dataset_name, links in datasets.items():
     print(f"Selected {n_select} files (60%)")
 
     reduce_outdir = f"{path_reduce_root}/{process_to_run}/{dataset_name}"
-    dataset_outdir = f"Dataset_ver2/MC/processed/{process_to_run}/{dataset_name}"
+    dataset_outdir = f"Dataset_ver3/MC/processed/{process_to_run}/{dataset_name}"
     os.makedirs(dataset_outdir, exist_ok=True)
 
     for c, link in enumerate(selected_links):
@@ -289,4 +292,4 @@ for dataset_name, links in datasets.items():
         reduced_file = f"{reduce_outdir}/root_{c}.root"
         make_dataset(process_to_run, dataset_name, c, reduced_file, dataset_outdir)
 
-print(f"\n✅ Finished processing {process_to_run}. Results saved in Dataset_ver2/MC/processed/{process_to_run}/")
+print(f"\n✅ Finished processing {process_to_run}. Results saved in Dataset_ver3/MC/processed/{process_to_run}/")

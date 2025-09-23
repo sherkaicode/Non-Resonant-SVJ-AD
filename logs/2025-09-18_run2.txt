@@ -1,0 +1,35 @@
+Logging to logs/2025-09-18_run2.txt
+
+
+=== Processing Period B ===
+
+--- Processing run: 300908
+
+--- Processing run: 300863
+
+--- Processing run: 300800
+
+--- Processing run: 300784
+
+--- Processing run: 300687
+
+--- Processing run: 300655
+
+--- Processing run: 300600
+
+--- Processing run: 300571
+
+--- Processing run: 300540
+
+--- Processing run: 300487
+
+--- Processing run: 300418
+
+--- Processing run: 300415
+
+--- Processing run: 300345
+Summary for Period B:
+  Runs processed:   13
+  Reduced ROOTs:    2380
+  Dataset files:    2380
+=================================
