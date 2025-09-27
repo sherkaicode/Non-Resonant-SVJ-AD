@@ -1,0 +1,6 @@
+Logging to logs/2025-09-25_run2.txt
+
+
+=== Processing Period G ===
+
+--- Processing run: 305618

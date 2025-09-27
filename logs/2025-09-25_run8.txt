@@ -1,0 +1,19 @@
+Logging to logs/2025-09-25_run8.txt
+
+
+=== Processing Period G ===
+
+--- Processing run: 305618
+
+--- Processing run: 305571
+
+--- Processing run: 305543
+
+--- Processing run: 305380
+
+--- Processing run: 305293
+Summary for Period G:
+  Runs processed:   5
+  Reduced ROOTs:    969
+  Dataset files:    969
+=================================

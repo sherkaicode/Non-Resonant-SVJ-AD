@@ -1,0 +1,23 @@
+Logging to logs/2025-09-25_run7.txt
+
+
+=== Processing Period I ===
+
+--- Processing run: 307358
+
+--- Processing run: 307354
+
+--- Processing run: 307306
+
+--- Processing run: 307259
+
+--- Processing run: 307195
+
+--- Processing run: 307126
+
+--- Processing run: 307124
+Summary for Period I:
+  Runs processed:   7
+  Reduced ROOTs:    1226
+  Dataset files:    1226
+=================================
