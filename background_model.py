@@ -46,10 +46,17 @@ def stream_hist(basepath, period, var, max_events=None):
 
     col_index = COLUMNS.index(var)
     n_events = 0
+    n_files_used = 0
 
     for f in files:
+        if os.path.getsize(f) == 0:  # skip truly empty files
+            continue
+
         with open(f) as infile:
-            for line in infile:
+            for i, line in enumerate(infile):
+                if i == 0 and line.startswith("pT_j1"):  # header line
+                    continue
+
                 parts = line.strip().split()
                 if len(parts) != len(COLUMNS):
                     continue
@@ -61,10 +68,16 @@ def stream_hist(basepath, period, var, max_events=None):
                 if xmin <= val < xmax:
                     h, _ = np.histogram([val], bins=bins)
                     hist += h
-                n_events += 1
+                    n_events += 1  # only count *valid* entries
 
                 if max_events and n_events >= max_events:
+                    print(f"[INFO] {period}: used {n_files_used+1}/{len(files)} files, {n_events} valid events")
                     return hist, bins
+
+        if n_events > 0:
+            n_files_used += 1
+
+    print(f"[INFO] {period}: used {n_files_used}/{len(files)} files, {n_events} valid events")
     return hist, bins
 
 def plot_comparison(vars, data_periods, mc_periods, max_events=None):
@@ -81,27 +94,82 @@ def plot_comparison(vars, data_periods, mc_periods, max_events=None):
             h, bins = stream_hist("Dataset_ver2/Data/predataset", period, var, max_events)
             hist_data += h
         centers = 0.5 * (bins[:-1] + bins[1:])
-        if hist_data.sum() > 0:
-            hist_data = hist_data / hist_data.sum()
-            plt.step(centers, hist_data, where="mid", color="black", label="Data", linewidth=2)
 
         # --- MC ---
+        mc_hists = []
+        mc_labels = []
         for i, period in enumerate(mc_periods):
             hist_mc, _ = stream_hist("Dataset_ver2/MC/processed", period, var, max_events)
             if hist_mc.sum() == 0:
                 continue
-            hist_mc = hist_mc / hist_mc.sum()
-            plt.step(centers, hist_mc, where="mid",
-                     color=colors[i % len(colors)], label=f"MC {period}")
+            mc_hists.append(hist_mc)
+            mc_labels.append(period)
+
+        # Normalize to total events (data-driven normalization)
+        if hist_data.sum() > 0:
+            hist_data = hist_data / hist_data.sum()
+        if len(mc_hists) > 0:
+            stacked = np.sum(mc_hists, axis=0)
+            mc_hists = [h / stacked.sum() for h in mc_hists]
+
+        # Plot MC stacked
+        if len(mc_hists) > 0:
+            plt.hist(
+                [centers] * len(mc_hists), bins=bins, weights=mc_hists,
+                stacked=True, label=[f"MC {lab}" for lab in mc_labels],
+                color=colors[:len(mc_hists)], alpha=0.7, edgecolor="black"
+            )
+
+        # Plot Data as points with error bars
+        if hist_data.sum() > 0:
+            plt.errorbar(centers, hist_data, yerr=np.sqrt(hist_data/len(hist_data)),
+                         fmt="o", color="black", label="Data")
 
         plt.xlabel(xlabel)
         plt.ylabel("Normalized events")
-        plt.title(f"Data vs MC: {xlabel}")
+        plt.title(f"Data vs MC (stacked): {xlabel}")
         plt.legend()
         plt.tight_layout()
-        plt.savefig(f"plots/compare_{var}.png")
+        plt.savefig(f"plots/compare_{var}_stacked.png")
         plt.close()
-        print(f"[SAVED] compare_{var}.png")
+        print(f"[SAVED] compare_{var}_stacked.png")
+
+    # plt.style.use("seaborn-v0_8")
+    # colors = plt.cm.tab10.colors
+
+    # for var in vars:
+    #     xmin, xmax, nbins, xlabel = VARIABLES[var]
+    #     plt.figure(figsize=(8,6))
+
+    #     # --- Data ---
+    #     hist_data = np.zeros(nbins, dtype=float)
+    #     for period in data_periods:
+    #         h, bins = stream_hist("Dataset_ver2/Data/predataset", period, var, max_events)
+    #         hist_data += h
+    #     centers = 0.5 * (bins[:-1] + bins[1:])
+    #     if hist_data.sum() > 0:
+    #         hist_data = hist_data / hist_data.sum()
+    #         plt.step(centers, hist_data, where="mid", color="black", label="Data", linewidth=2)
+
+    #     # --- MC ---
+    #     for i, period in enumerate(mc_periods):
+    #         # print(period)
+    #         hist_mc, _ = stream_hist("Dataset_ver2/MC/processed", period, var, max_events)
+    #         # print(hist_mc)
+    #         if hist_mc.sum() == 0:
+    #             continue
+    #         hist_mc = hist_mc / hist_mc.sum()
+    #         plt.step(centers, hist_mc, where="mid",
+    #                  color=colors[i % len(colors)], label=f"MC {period}")
+
+    #     plt.xlabel(xlabel)
+    #     plt.ylabel("Normalized events")
+    #     plt.title(f"Data vs MC: {xlabel}")
+    #     plt.legend()
+    #     plt.tight_layout()
+    #     plt.savefig(f"plots/compare_{var}.png")
+    #     plt.close()
+    #     print(f"[SAVED] compare_{var}.png")
 
 def main():
     parser = argparse.ArgumentParser(description="Compare Data vs MC distributions")
