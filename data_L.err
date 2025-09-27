@@ -1,15 +1,6 @@
-/ether/aegis/Research_HEP/make_data_script.py:183: RuntimeWarning: divide by zero encountered in divide
+Plugin No such file or directory loading sec.protocol libXrdSeckrb5-5.so
+Plugin No such file or directory loading sec.protocol libXrdSeckrb5-5.so
+/ether/aegis/Research_HEP/make_data_script.py:187: RuntimeWarning: divide by zero encountered in log
   if np.sum(np.log(pb/(fc*pc + (1-fc)*pu)) > cut_77) >= 2: continue
-/ether/aegis/Research_HEP/make_data_script.py:183: RuntimeWarning: divide by zero encountered in log
+/ether/aegis/Research_HEP/make_data_script.py:187: RuntimeWarning: divide by zero encountered in divide
   if np.sum(np.log(pb/(fc*pc + (1-fc)*pu)) > cut_77) >= 2: continue
-/ether/aegis/Research_HEP/make_data_script.py:183: RuntimeWarning: overflow encountered in divide
-  if np.sum(np.log(pb/(fc*pc + (1-fc)*pu)) > cut_77) >= 2: continue
-Traceback (most recent call last):
-  File "/ether/aegis/Research_HEP/make_data_script.py", line 230, in <module>
-    make_dataset(selected_period, run, c, reduce_file, outdir)
-  File "/ether/aegis/Research_HEP/make_data_script.py", line 132, in make_dataset
-    data = df.AsNumpy(branches)
-  File "/home/aegis/Titan0/programs/lib/ROOT/_pythonization/_rdataframe.py", line 231, in RDataFrameAsNumpy
-    column_type = df.GetColumnType(column)
-cppyy.gbl.std.runtime_error: string ROOT::RDF::RInterfaceBase::GetColumnType(string_view column) =>
-    runtime_error: Column "AnalysisJetsAuxDyn_eta" is not in a dataset and is not a custom column been defined.
