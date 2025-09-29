@@ -12,30 +12,38 @@ COLUMNS = [
     "tau21_j1", "tau21_j2",
     "tau32_j1", "tau32_j2",
     "met", "phi_met",
-    "min_dPhi", "ht"
+    "min_dPhi", "ht", 
+    "weight"
 ]
+MC_COLORS = {
+    "Wjets": "cyan",        # light cyan
+    "Zjets": "green",       # green
+    "ttbar": "purple",       # purple
+    "Single_top": "navy",    # dark blue
+    "Diboson": "gold",       # yellow
+    "Multijet": "turquoise"  # dark cyan / turquoise
+}
 
 PERIODS = ["Wjets","Zjets","ttbar","Single_top","Multijet","Diboson"]
 
 # Mapping: var -> (xmin, xmax, nbins, label)
 VARIABLES = {
-    "pT_j1": (0, 2000, 50, r"$p_{T}^{j1}$ [GeV]"),
-    "pT_j2": (0, 1500, 50, r"$p_{T}^{j2}$ [GeV]"),
-    "eta_j1": (-3, 3, 50, r"$\eta^{j1}$"),
-    "eta_j2": (-3, 3, 50, r"$\eta^{j2}$"),
-    "m_jj": (0, 5000, 50, r"$m_{jj}$ [GeV]"),
-    "tau21_j1": (0, 1.5, 50, r"$\tau_{21}^{j1}$"),
-    "tau21_j2": (0, 1.5, 50, r"$\tau_{21}^{j2}$"),
-    "tau32_j1": (0, 1.5, 50, r"$\tau_{32}^{j1}$"),
-    "tau32_j2": (0, 1.5, 50, r"$\tau_{32}^{j2}$"),
-    "met": (0, 2000, 50, r"$E_{T}^{miss}$ [GeV]"),
-    "ht": (0, 5000, 50, r"$H_{T}$ [GeV]"),
-    "min_dPhi": (0, 3.2, 50, r"$\min \Delta \phi(jet, MET)$"),
+    "pT_j1": (0, 2000, 50, r"$p_{T}^{j1}$ [GeV]", True),
+    "pT_j2": (0, 1500, 50, r"$p_{T}^{j2}$ [GeV]", True),
+    "eta_j1": (-3, 3, 50, r"$\eta^{j1}$", False),
+    "eta_j2": (-3, 3, 50, r"$\eta^{j2}$", False),
+    "m_jj": (0, 5000, 50, r"$m_{jj}$ [GeV]", True),
+    "tau21_j1": (0, 1.5, 50, r"$\tau_{21}^{j1}$", False),
+    "tau21_j2": (0, 1.5, 50, r"$\tau_{21}^{j2}$", False),
+    "tau32_j1": (0, 1.5, 50, r"$\tau_{32}^{j1}$", False),
+    "tau32_j2": (0, 1.5, 50, r"$\tau_{32}^{j2}$", False),
+    "met": (0, 2000, 50, r"$E_{T}^{miss}$ [GeV]", True),
+    "ht": (0, 5000, 50, r"$H_{T}$ [GeV]", True),
+    "min_dPhi": (0, 3.2, 50, r"$\min \Delta \phi(jet, MET)$", False),
 }
 
-def stream_hist(period, var, max_events=None, basepath="Dataset_ver2/MC/processed"):
-    """Compute histogram for one variable in one period, streaming from files."""
-    xmin, xmax, nbins, _ = VARIABLES[var]
+def stream_hist(period, var, max_events=None, basepath="Dataset_ver3/MC/processed"):
+    xmin, xmax, nbins, _, _ = VARIABLES[var]
     bins = np.linspace(xmin, xmax, nbins+1)
     hist = np.zeros(nbins, dtype=float)
 
@@ -43,6 +51,7 @@ def stream_hist(period, var, max_events=None, basepath="Dataset_ver2/MC/processe
     files = glob.glob(path)
 
     col_index = COLUMNS.index(var)
+    weight_index = COLUMNS.index("weight")
     n_events = 0
 
     for f in files:
@@ -53,11 +62,12 @@ def stream_hist(period, var, max_events=None, basepath="Dataset_ver2/MC/processe
                     continue
                 try:
                     val = float(parts[col_index])
+                    w   = float(parts[weight_index])
                 except ValueError:
                     continue
 
                 if xmin <= val < xmax:
-                    h, _ = np.histogram([val], bins=bins)
+                    h, _ = np.histogram([val], bins=bins, weights=[w])
                     hist += h
                 n_events += 1
 
@@ -66,33 +76,58 @@ def stream_hist(period, var, max_events=None, basepath="Dataset_ver2/MC/processe
 
     return hist, bins
 
-def plot_variables(vars, periods, max_events=None):
+
+def plot_variables(vars, periods, max_events=None, basepath="Dataset_ver3/MC/processed"):
     plt.style.use("seaborn-v0_8")
-    colors = plt.cm.tab10.colors
 
     for var in vars:
-        xmin, xmax, nbins, xlabel = VARIABLES[var]
-        plt.figure(figsize=(8,6))
+        xmin, xmax, nbins, xlabel, _ = VARIABLES[var]
+        bins = np.linspace(xmin, xmax, nbins+1)
+        bin_centers = 0.5 * (bins[:-1] + bins[1:])
 
-        for i, period in enumerate(periods):
-            hist, bins = stream_hist(period, var, max_events=max_events)
+        all_hists, labels, colors_used = [], [], []
+
+        for period in periods:
+            hist, _ = stream_hist(period, var, max_events=max_events)
             if hist.sum() == 0:
                 continue
+            all_hists.append(hist)
+            labels.append(period)
+            colors_used.append(MC_COLORS.get(period, "gray"))
 
-            centers = 0.5 * (bins[:-1] + bins[1:])
-            hist = hist / hist.sum()  # normalize
+        if not all_hists:
+            print(f"[SKIPPED] {var} (no events found)")
+            continue
 
-            plt.step(centers, hist, where="mid",
-                     color=colors[i % len(colors)], label=f"Period {period}")
+        all_hists = np.array(all_hists)
 
-        plt.xlabel(xlabel)
-        plt.ylabel("Normalized events")
-        plt.title(f"Distribution of {xlabel}")
-        plt.legend()
+        fig, ax = plt.subplots(figsize=(10, 6))
+        bottom = np.zeros_like(bin_centers)
+
+        for i in range(all_hists.shape[0]):
+            ax.bar(
+                bin_centers,
+                all_hists[i],
+                width=(bins[1] - bins[0]),
+                bottom=bottom,
+                color=colors_used[i],
+                label=labels[i],
+                linewidth=0.6,
+                edgecolor="black",
+                alpha=0.8
+            )
+            bottom += all_hists[i]
+
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel("Event Count")
+        ax.set_title(f"Distribution of {xlabel}")
+        ax.legend(loc="upper right", fontsize="small", ncol=2)
+        ax.grid(axis="y", linestyle="--", alpha=0.5)
         plt.tight_layout()
         plt.savefig(f"plots/MC/plot_{var}.png")
         plt.close()
         print(f"[SAVED] plot_{var}.png")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Plot data variables by period (streaming mode)")

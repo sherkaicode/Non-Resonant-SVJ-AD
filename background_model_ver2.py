@@ -4,7 +4,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 import os
+import logging
+from datetime import datetime
 from matplotlib.gridspec import GridSpec
+
+# --- Setup logging ---
+os.makedirs("logs", exist_ok=True)
+log_filename = datetime.now().strftime("logs/run_%Y%m%d_%H%M%S.log")
+
+logging.basicConfig(
+    filename=log_filename,
+    filemode="w",
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+console.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
+logging.getLogger().addHandler(console)
 
 # --- Column definitions ---
 COLUMNS_MC = [
@@ -15,7 +33,7 @@ COLUMNS_MC = [
     "tau32_j1", "tau32_j2",
     "met", "phi_met",
     "min_dPhi", "ht",
-    "weight"   # include weight column
+    "weight"
 ]
 COLUMNS_DATA = [
     "pT_j1", "eta_j1", "phi_j1",
@@ -30,15 +48,6 @@ COLUMNS_DATA = [
 # --- Periods ---
 DATA_PERIODS = ["A","B","C","D","E","F","G","I","K","L"]
 MC_PERIODS = ["Wjets","Zjets","ttbar","Single_top","Multijet","Diboson"]
-# MC_COLORS = {
-#     "Wjets": "cyan",          # light cyan
-#     "Zjets": "green",         # green
-#     "ttbar": "purple",         # purple
-#     "Single_top": "navy",      # dark blue
-#     "Diboson": "gold",         # yellow
-#     "Multijet": "turquoise",   # dark cyan / turquoise
-# }
-
 
 # --- Variables ---
 VARIABLES = {
@@ -58,7 +67,6 @@ VARIABLES = {
 
 # --- Stream histogram ---
 def stream_hist(basepath, period, var, max_events=None):
-    """Compute histogram for one variable in one period, with optional max events and MET/HT cuts."""
     xmin, xmax, nbins, _, _ = VARIABLES[var]
     bins = np.linspace(xmin, xmax, nbins+1)
     hist = np.zeros(nbins, dtype=float)
@@ -66,7 +74,6 @@ def stream_hist(basepath, period, var, max_events=None):
     path = os.path.join(basepath, period, "**/dataset_*.txt")
     files = glob.glob(path, recursive=True)
 
-    # Pick columns based on dataset type
     is_mc = "MC" in basepath
     columns = COLUMNS_MC if is_mc else COLUMNS_DATA
 
@@ -84,26 +91,20 @@ def stream_hist(basepath, period, var, max_events=None):
 
         with open(f) as infile:
             for i, line in enumerate(infile):
-                if i == 0 and line.startswith("pT_j1"):  # header
+                if i == 0 and line.startswith("pT_j1"):
                     continue
 
                 parts = line.strip().split()
-                if len(parts) < len(columns):  # allow for missing weight column
+                if len(parts) < len(columns):
                     continue
-                # try:
                 val = float(parts[col_index])
                 met_val = float(parts[met_index])
                 ht_val = float(parts[ht_index])
                 w = float(parts[weight_index]) if weight_index is not None else 1.0
-                # except ValueError:
-                #     continue
 
                 in_sr = (ht_val < 600 and met_val < 600)
                 if not in_sr:
                     continue
-                # Example cut: keep all events (change logic if needed)
-                # if (met_val < 600 and ht_val < 600):
-                #     continue
 
                 if xmin <= val < xmax:
                     h, _ = np.histogram([val], bins=bins, weights=[w])
@@ -111,82 +112,15 @@ def stream_hist(basepath, period, var, max_events=None):
                     n_events += 1
 
                 if max_events and n_events >= max_events:
-                    print(f"[INFO] {period}: used {n_files_used+1}/{len(files)} files, {n_events} valid events")
+                    logging.info(f"{period}: used {n_files_used+1}/{len(files)} files, {n_events} valid events")
                     return hist, bins
 
         if n_events > 0:
             n_files_used += 1
 
-    print(f"[INFO] {period}: used {n_files_used}/{len(files)} files, {n_events} valid events")
+    logging.info(f"{period}: used {n_files_used}/{len(files)} files, {n_events} valid events")
     return hist, bins
-
-# # --- Plot comparison ---
-# def plot_comparison(vars, data_periods, mc_periods, max_data_events=None, max_mc_events=None):
-#     plt.style.use("seaborn-v0_8")
-#     colors = plt.cm.tab10.colors
-
-#     for var in vars:
-#         xmin, xmax, nbins, xlabel, log = VARIABLES[var]
-#         plt.figure(figsize=(8,6))
-
-#         # --- Data ---
-#         hist_data = np.zeros(nbins, dtype=float)
-#         for period in data_periods:
-#             h, bins = stream_hist("Dataset_ver2/Data/predataset", period, var, max_events=max_data_events)
-#             hist_data += h
-#         centers = 0.5 * (bins[:-1] + bins[1:])
-
-#         # --- MC ---
-#         mc_hists = []
-#         mc_labels = []
-#         for i, period in enumerate(mc_periods[::-1]):
-#             hist_mc, _ = stream_hist("Dataset_ver3/MC/processed", period, var, max_events=max_mc_events)
-#             if hist_mc.sum() == 0:
-#                 continue
-#             mc_hists.append(hist_mc)
-#             mc_labels.append(period)
-
-#         # Scale MC total to match data (no normalization of data)
-#         if len(mc_hists) > 0 and hist_data.sum() > 0:
-#             stacked = np.sum(mc_hists, axis=0)
-#             scale = hist_data.sum() / stacked.sum() if stacked.sum() > 0 else 1.0
-#             mc_hists = [h * scale for h in mc_hists]
-
-
-#         if len(mc_hists) > 0:
-#             width = bins[1] - bins[0]
-#             bottom = np.zeros_like(centers)
-
-#             for i, h in enumerate(mc_hists):
-#                 plt.bar(
-#                     centers, h,
-#                     width=width,
-#                     bottom=bottom,
-#                     color=MC_COLORS,
-#                     edgecolor="black", linewidth=0.5,
-#                     label=f"MC {mc_labels[i]}",
-#                     align="center"
-#                 )
-#                 bottom += h
-
-
-
-#         # Plot Data with Poisson errors
-#         if hist_data.sum() > 0:
-#             errors = np.sqrt(hist_data)
-#             plt.errorbar(centers, hist_data, yerr=errors,
-#                          fmt="o", color="black", label="Data")
-
-#         plt.xlabel(xlabel)
-#         plt.ylabel("Events")
-#         plt.title(f"Data vs MC (stacked, weighted): {xlabel}")
-#         plt.legend()
-#         plt.semilogy(log)
-#         plt.tight_layout()
-#         plt.savefig(f"plots/compare_{var}_stacked.png")
-#         plt.close()
-#         print(f"[SAVED] compare_{var}_stacked.png")
-
+# --- Plotting ---
 MC_COLORS = {
     "Wjets": "cyan",        # light cyan
     "Zjets": "green",       # green
