@@ -102,9 +102,9 @@ def stream_hist(basepath, period, var, max_events=None):
                 ht_val = float(parts[ht_index])
                 w = float(parts[weight_index]) if weight_index is not None else 1.0
 
-                in_sr = (ht_val < 600 and met_val < 600)
-                if not in_sr:
-                    continue
+                # in_sr = (ht_val < 600 and met_val < 600)
+                # if not in_sr:
+                    # continue
 
                 if xmin <= val < xmax:
                     h, _ = np.histogram([val], bins=bins, weights=[w])
@@ -131,7 +131,7 @@ MC_COLORS = {
 }
 
 def plot_comparison(vars, data_periods, mc_periods, max_data_events=None, max_mc_events=None):
-    plt.style.use("seaborn-v0_8")
+    # plt.style.use("seaborn-v0_8")
 
     for var in vars:
         xmin, xmax, nbins, xlabel, log = VARIABLES[var]
