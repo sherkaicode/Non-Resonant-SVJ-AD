@@ -3,12 +3,12 @@
 
 # Define parameter sets
 # masses=(1000 2000 3000)
-masses=(3000)
-# ratios=(2 4 6 8)
+masses=(2000)
 ratios=(8)
+# ratios=(8)
 
 # Base directories
-input_base="/Titan0/aegis/pythia2/pythia8245/examples/Research/root_files_edit"
+input_base="/Titan0/aegis/pythia2/pythia8245/examples/Research/root_files_Run2"
 output_base="processed_signal"
 
 # Create output directory if it doesn't exist
