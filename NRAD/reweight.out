@@ -1,0 +1,14 @@
+Running on node:
+gaia
+Activating NRAD_env...
+Using Python: /home/aegis/NRAD_env/bin/python3
+NumPy version: 1.24.4
+NumPy path: /home/aegis/NRAD_env/lib/python3.10/site-packages/numpy/__init__.py
+Starting Generate Evaluation...
+Device: cuda
+
+Working on reweight_MC02_Data01_cr...
+      X_train, y_train, w_train: (19916636, 5) (19916636, 1) (19916636, 1)
+      X_test, y_test: (20031, 5) (20031, 1)
+Classifier run 1 of 20.
+Using device: cuda
