@@ -2,14 +2,14 @@
 # Run Analyzer.C for selected signal modes, excluding some combinations
 
 # Define parameter sets
-# masses=(1000 2000 3000)
-masses=(2000)
-ratios=(8)
+masses=(1000 2000 3000)
+# masses=(2000)
 # ratios=(8)
+ratios=(2 4 6 8)
 
 # Base directories
-input_base="/Titan0/aegis/pythia2/pythia8245/examples/Research/root_files_Run2"
-output_base="processed_signal"
+input_base="/home/aegis/Titan0/pythia2/pythia8245/examples/Research/root_files_PU_lxplus"
+output_base="lxplus_signal"
 
 # Create output directory if it doesn't exist
 mkdir -p "$output_base"

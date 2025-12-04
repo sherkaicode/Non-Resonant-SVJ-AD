@@ -1,5 +1,5 @@
 Running on node:
-gaia
+uranus
 Activating NRAD_env...
 Using Python: /home/aegis/NRAD_env/bin/python3
 NumPy version: 1.24.4
@@ -12,3 +12,343 @@ Working on reweight_MC02_Data01_cr...
       X_test, y_test: (20031, 5) (20031, 1)
 Classifier run 1 of 20.
 Using device: cuda
+   AUC: 0.507348695080591
+Classifier run 2 of 20.
+Using device: cuda
+   AUC: 0.503161677830454
+Classifier run 3 of 20.
+Using device: cuda
+   AUC: 0.5058420012583966
+Classifier run 4 of 20.
+Using device: cuda
+   AUC: 0.5037887062209728
+Classifier run 5 of 20.
+Using device: cuda
+   AUC: 0.5025957573462118
+Classifier run 6 of 20.
+Using device: cuda
+   AUC: 0.5044777631357928
+Classifier run 7 of 20.
+Using device: cuda
+   AUC: 0.5082773722974954
+Classifier run 8 of 20.
+Using device: cuda
+   AUC: 0.5043793660663144
+Classifier run 9 of 20.
+Using device: cuda
+   AUC: 0.5063524697039812
+Classifier run 10 of 20.
+Using device: cuda
+   AUC: 0.5044681697325389
+Classifier run 11 of 20.
+Using device: cuda
+   AUC: 0.5080490170854295
+Classifier run 12 of 20.
+Using device: cuda
+   AUC: 0.5022174738356834
+Classifier run 13 of 20.
+Using device: cuda
+   AUC: 0.5041956659927433
+Classifier run 14 of 20.
+Using device: cuda
+   AUC: 0.5044203239201459
+Classifier run 15 of 20.
+Using device: cuda
+   AUC: 0.5077023282531319
+Classifier run 16 of 20.
+Using device: cuda
+   AUC: 0.5050947126034947
+Classifier run 17 of 20.
+Using device: cuda
+   AUC: 0.5033868774623625
+Classifier run 18 of 20.
+Using device: cuda
+   AUC: 0.5075376042775535
+Classifier run 19 of 20.
+Using device: cuda
+   AUC: 0.5040800324258656
+Classifier run 20 of 20.
+Using device: cuda
+   AUC: 0.5014249421111991
+
+Median AUC, 16th percentile, 84th percentile:
+0.5044442468263424 [0.5031706858157303, 0.5075300479096749]
+Done.
+
+
+Working on reweight_MC02_Data02_cr...
+      X_train, y_train, w_train: (19916636, 5) (19916636, 1) (19916636, 1)
+      X_test, y_test: (20031, 5) (20031, 1)
+Classifier run 1 of 20.
+Using device: cuda
+   AUC: 0.5113779827659032
+Classifier run 2 of 20.
+Using device: cuda
+   AUC: 0.5160932328446185
+Classifier run 3 of 20.
+Using device: cuda
+   AUC: 0.5165718990024737
+Classifier run 4 of 20.
+Using device: cuda
+   AUC: 0.5073212786702881
+Classifier run 5 of 20.
+Using device: cuda
+   AUC: 0.5160455073984083
+Classifier run 6 of 20.
+Using device: cuda
+   AUC: 0.5168621952748342
+Classifier run 7 of 20.
+Using device: cuda
+   AUC: 0.50861491688095
+Classifier run 8 of 20.
+Using device: cuda
+   AUC: 0.5143759537119943
+Classifier run 9 of 20.
+Using device: cuda
+   AUC: 0.5166769868538101
+Classifier run 10 of 20.
+Using device: cuda
+   AUC: 0.5123376316263764
+Classifier run 11 of 20.
+Using device: cuda
+   AUC: 0.5176801595442204
+Classifier run 12 of 20.
+Using device: cuda
+   AUC: 0.5146659975688118
+Classifier run 13 of 20.
+Using device: cuda
+   AUC: 0.5173691103266163
+Classifier run 14 of 20.
+Using device: cuda
+   AUC: 0.509949311706288
+Classifier run 15 of 20.
+Using device: cuda
+   AUC: 0.5133924342607181
+Classifier run 16 of 20.
+Using device: cuda
+   AUC: 0.5098013569884396
+Classifier run 17 of 20.
+Using device: cuda
+   AUC: 0.5135920766589126
+Classifier run 18 of 20.
+Using device: cuda
+   AUC: 0.5162782625589915
+Classifier run 19 of 20.
+Using device: cuda
+   AUC: 0.51047021439682
+Classifier run 20 of 20.
+Using device: cuda
+   AUC: 0.5128268999654675
+
+Median AUC, 16th percentile, 84th percentile:
+0.5139840151854534 [0.5099701478139093, 0.5166727833397566]
+Done.
+
+
+Working on reweight_MC02_Data03_cr...
+      X_train, y_train, w_train: (19916636, 5) (19916636, 1) (19916636, 1)
+      X_test, y_test: (20031, 5) (20031, 1)
+Classifier run 1 of 20.
+Using device: cuda
+   AUC: 0.5147117569043095
+Classifier run 2 of 20.
+Using device: cuda
+   AUC: 0.5145740648919317
+Classifier run 3 of 20.
+Using device: cuda
+   AUC: 0.5191134597073639
+Classifier run 4 of 20.
+Using device: cuda
+   AUC: 0.516064081610047
+Classifier run 5 of 20.
+Using device: cuda
+   AUC: 0.5173193917978833
+Classifier run 6 of 20.
+Using device: cuda
+   AUC: 0.5169994629502195
+Classifier run 7 of 20.
+Using device: cuda
+   AUC: 0.5158684141407729
+Classifier run 8 of 20.
+Using device: cuda
+   AUC: 0.5164483338126138
+Classifier run 9 of 20.
+Using device: cuda
+   AUC: 0.5164779907388728
+Classifier run 10 of 20.
+Using device: cuda
+   AUC: 0.51507719416957
+Classifier run 11 of 20.
+Using device: cuda
+   AUC: 0.51712194680219
+Classifier run 12 of 20.
+Using device: cuda
+   AUC: 0.5162392090312051
+Classifier run 13 of 20.
+Using device: cuda
+   AUC: 0.5165396079214493
+Classifier run 14 of 20.
+Using device: cuda
+   AUC: 0.5180094510433122
+Classifier run 15 of 20.
+Using device: cuda
+   AUC: 0.5179397688225262
+Classifier run 16 of 20.
+Using device: cuda
+   AUC: 0.5177314637531114
+Classifier run 17 of 20.
+Using device: cuda
+   AUC: 0.5137198370524527
+Classifier run 18 of 20.
+Using device: cuda
+   AUC: 0.517999960812559
+Classifier run 19 of 20.
+Using device: cuda
+   AUC: 0.5186683116199791
+Classifier run 20 of 20.
+Using device: cuda
+   AUC: 0.5162121094401464
+
+Median AUC, 16th percentile, 84th percentile:
+0.516508799330161 [0.5151088429684181, 0.5179975531329576]
+Done.
+
+
+Working on reweight_MC02_Data04_cr...
+      X_train, y_train, w_train: (19916636, 5) (19916636, 1) (19916636, 1)
+      X_test, y_test: (20031, 5) (20031, 1)
+Classifier run 1 of 20.
+Using device: cuda
+   AUC: 0.5244928645167743
+Classifier run 2 of 20.
+Using device: cuda
+   AUC: 0.517688212410529
+Classifier run 3 of 20.
+Using device: cuda
+   AUC: 0.516407506239841
+Classifier run 4 of 20.
+Using device: cuda
+   AUC: 0.5190399236128524
+Classifier run 5 of 20.
+Using device: cuda
+   AUC: 0.5249143620300911
+Classifier run 6 of 20.
+Using device: cuda
+   AUC: 0.5186411239154727
+Classifier run 7 of 20.
+Using device: cuda
+   AUC: 0.5217945296169327
+Classifier run 8 of 20.
+Using device: cuda
+   AUC: 0.5180444580084391
+Classifier run 9 of 20.
+Using device: cuda
+   AUC: 0.5184571442015583
+Classifier run 10 of 20.
+Using device: cuda
+   AUC: 0.5201345145083016
+Classifier run 11 of 20.
+Using device: cuda
+   AUC: 0.5174273809874617
+Classifier run 12 of 20.
+Using device: cuda
+   AUC: 0.5171139651662814
+Classifier run 13 of 20.
+Using device: cuda
+   AUC: 0.519519198414904
+Classifier run 14 of 20.
+Using device: cuda
+   AUC: 0.5155272337132041
+Classifier run 15 of 20.
+Using device: cuda
+   AUC: 0.5216606709269827
+Classifier run 16 of 20.
+Using device: cuda
+   AUC: 0.515003115702122
+Classifier run 17 of 20.
+Using device: cuda
+   AUC: 0.5230429150282394
+Classifier run 18 of 20.
+Using device: cuda
+   AUC: 0.5211668258764477
+Classifier run 19 of 20.
+Using device: cuda
+   AUC: 0.5189722379864293
+Classifier run 20 of 20.
+Using device: cuda
+   AUC: 0.5177155425011986
+
+Median AUC, 16th percentile, 84th percentile:
+0.5188066809509511 [0.5171265017991286, 0.5217891752693348]
+Done.
+
+
+Working on reweight_MC02_Data05_cr...
+      X_train, y_train, w_train: (19916636, 5) (19916636, 1) (19916636, 1)
+      X_test, y_test: (20031, 5) (20031, 1)
+Classifier run 1 of 20.
+Using device: cuda
+   AUC: 0.5182815001887474
+Classifier run 2 of 20.
+Using device: cuda
+   AUC: 0.5203267791259424
+Classifier run 3 of 20.
+Using device: cuda
+   AUC: 0.5186436413171396
+Classifier run 4 of 20.
+Using device: cuda
+   AUC: 0.5186510649022764
+Classifier run 5 of 20.
+Using device: cuda
+   AUC: 0.5199087487797851
+Classifier run 6 of 20.
+Using device: cuda
+   AUC: 0.5204283826693001
+Classifier run 7 of 20.
+Using device: cuda
+   AUC: 0.5217574958689968
+Classifier run 8 of 20.
+Using device: cuda
+   AUC: 0.5209508827553737
+Classifier run 9 of 20.
+Using device: cuda
+   AUC: 0.5221563922197365
+Classifier run 10 of 20.
+Using device: cuda
+   AUC: 0.5149603595192451
+Classifier run 11 of 20.
+Using device: cuda
+   AUC: 0.5196510787864788
+Classifier run 12 of 20.
+Using device: cuda
+   AUC: 0.5199395963737692
+Classifier run 13 of 20.
+Using device: cuda
+   AUC: 0.5178862984373818
+Classifier run 14 of 20.
+Using device: cuda
+   AUC: 0.519888018642884
+Classifier run 15 of 20.
+Using device: cuda
+   AUC: 0.5184967091931203
+Classifier run 16 of 20.
+Using device: cuda
+   AUC: 0.5193387844341661
+Classifier run 17 of 20.
+Using device: cuda
+   AUC: 0.5195663870485263
+Classifier run 18 of 20.
+Using device: cuda
+   AUC: 0.5188302736736949
+Classifier run 19 of 20.
+Using device: cuda
+   AUC: 0.5191160674170867
+Classifier run 20 of 20.
+Using device: cuda
+   AUC: 0.5180977724538933
+
+Median AUC, 16th percentile, 84th percentile:
+0.5194525857413462 [0.5182901085489223, 0.5204243185275659]
+Done.
+
+Done.

@@ -133,17 +133,17 @@ class Classifier():
             train_dataset,
             batch_size=batch_size,
             shuffle=True,
-            num_workers=60,
+            num_workers=10,
             pin_memory=True,
-            persistent_workers=True
+            persistent_workers=False
         )
         val_dataloader = torch.utils.data.DataLoader(
             val_dataset,
             batch_size=batch_size,
             shuffle=False,
-            num_workers=60,
+            num_workers=10,
             pin_memory=True,
-            persistent_workers=True
+            persistent_workers=False
         )
 
         return train_dataloader, val_dataloader
