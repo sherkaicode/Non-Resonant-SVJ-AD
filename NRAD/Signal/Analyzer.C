@@ -1,203 +1,226 @@
 /*
-Simple macro showing how to access branches from the delphes output root file,
-loop over events, and plot simple quantities such as the jet pt.
-
-root -l examples/Analyzer.C'("delphes_output.root", "output.txt")'
+Analyzer.C
+Matches logic of the Python/uproot reference script, 
+with a switch to enable/disable cuts.
+Updated to include pt_balance.
 */
 
 #ifdef __CLING__
 R__LOAD_LIBRARY(libDelphes)
 #include "classes/DelphesClasses.h"
 #include "external/ExRootAnalysis/ExRootTreeReader.h"
+#include "TVector2.h"
+#include <algorithm>
+#include <vector>
 #else
 class ExRootTreeReader;
-class ExRootResult;
 #endif
 
 //------------------------------------------------------------------------------
 
-
-void AnalyseEvents(ExRootTreeReader *treeReader,  const char *outputFile_part)
+void AnalyseEvents(ExRootTreeReader *treeReader, const char *outputFile, bool applyCuts)
 {
+  // --- Setup Branches ---
+  TClonesArray *branchEvent     = treeReader->UseBranch("Event");
   TClonesArray *branchFatJet    = treeReader->UseBranch("FatJet");
   TClonesArray *branchSmallJet  = treeReader->UseBranch("Jet");
-  TClonesArray *branchScalarHT  = treeReader->UseBranch("ScalarHT");
   TClonesArray *branchMET       = treeReader->UseBranch("MissingET");
   TClonesArray *branchElectron  = treeReader->UseBranch("Electron");
   TClonesArray *branchMuon      = treeReader->UseBranch("Muon");
-  TClonesArray* branchEvent = treeReader->UseBranch("Event");
 
   Long64_t allEntries = treeReader->GetEntries();
-  ofstream myfile_part(outputFile_part);
+  ofstream fout(outputFile);
 
   cout << "** Chain contains " << allEntries << " events" << endl;
+  cout << "** Apply Cuts: " << (applyCuts ? "YES" : "NO") << endl;
 
-  myfile_part << "pT_j1 eta_j1 phi_j1 pT_j2 eta_j2 phi_j2 m_jj "
-            << "tau21_j1 tau21_j2 tau32_j1 tau32_j2 "
-            << "met phi_met min_dPhi ht "
-            << "weight cross_section"
-            << endl;
+  // Added pt_balance to header
+  fout << "pT_j1 eta_j1 phi_j1 pT_j2 eta_j2 phi_j2 m_jj sm_jj "
+       << "tau21_j1 tau21_j2 tau32_j1 tau32_j2 "
+       << "met phi_met min_dPhi ht pt_balance weight" << endl;
 
+  int nSelected = 0;
 
-  int nEventSelected = 0;
-  bool cut = false;
-
-  for (Int_t entry = 0; entry < allEntries; ++entry)
+  for(Int_t entry = 0; entry < allEntries; ++entry)
   {
     treeReader->ReadEntry(entry);
-    if (entry % 1000 == 0) cout << "Event: " << entry << endl;
+    if(entry % 1000 == 0) cout << "Processing event: " << entry << endl;
 
-    Jet *fat1 = branchFatJet->GetEntries() > 0 ? (Jet*) branchFatJet->At(0) : nullptr;
-    Jet *fat2 = branchFatJet->GetEntries() > 1 ? (Jet*) branchFatJet->At(1) : nullptr;
+    int nSmallJets = branchSmallJet->GetEntries();
+    int nFatJets   = branchFatJet->GetEntries();
+    
+    // Pointers to objects (initially nullptr)
+    Jet *j1  = (nSmallJets > 0) ? (Jet*) branchSmallJet->At(0) : nullptr;
+    Jet *j2  = (nSmallJets > 1) ? (Jet*) branchSmallJet->At(1) : nullptr;
+    MissingET *metObj = (MissingET*) branchMET->At(0);
 
-    Jet *j1 = branchSmallJet->GetEntries() > 0 ? (Jet*) branchSmallJet->At(0) : nullptr;
-    Jet *j2 = branchSmallJet->GetEntries() > 1 ? (Jet*) branchSmallJet->At(1) : nullptr;
+    // --- Pre-calculate physics variables needed for cuts ---
+    
+    double phi_met = metObj->Phi;
+    
+    // Calculate dPhis for all small jets and find closest/farthest for pt_balance
+    std::vector<double> dphis;
+    int nLowDPhi = 0; 
 
-    MissingET *MET1 = (MissingET*) branchMET->At(0);
-    Float_t met = MET1->MET;
-    Float_t phi_met = MET1->Phi;
+    // Variables for pt_balance logic
+    Jet *jetClosest = nullptr;
+    Jet *jetFarthest = nullptr;
+    double minAbsDPhi = 9999.0;
+    double maxAbsDPhi = -1.0;
 
-    if (cut == true) {
-    // ------------------------------
-    // 0. Fat jet requirement (≥2)
-    // ------------------------------
-      if (branchFatJet->GetEntries() < 2) continue;
+    for(int i=0; i < nSmallJets; i++) {
+        Jet *jet = (Jet*) branchSmallJet->At(i);
+        double dphi = fabs(TVector2::Phi_mpi_pi(jet->Phi - phi_met));
+        dphis.push_back(dphi);
+        if (dphi < 2.0) nLowDPhi++;
 
-      // ------------------------------
-      // 1. Small-R jets (≥2)
-      // ------------------------------
-      if (branchSmallJet->GetEntries() < 2) continue;
-
-      // ------------------------------
-      // 2. Lepton veto
-      // Data/MC uses *tight* leptons; Delphes lacks this → best approximation
-      // ------------------------------
-      if (branchElectron->GetEntries() > 0) continue;
-      if (branchMuon->GetEntries() > 0) continue;
-
-      // --------------------------------------------------------
-      // 3. Require ≥2 central jets (|eta|<2.8)
-      // --------------------------------------------------------
-      int nCentral = 0;
-      for (int i = 0; i < branchSmallJet->GetEntries(); i++)
-      {
-        Jet *sj = (Jet*) branchSmallJet->At(i);
-        if (fabs(sj->Eta) < 2.8) nCentral++;
-      }
-      if (nCentral < 2) continue;
-
-      // --------------------------------------------------------
-      // 4. pT cuts on leading small jets
-      // --------------------------------------------------------
-      if (j1->PT < 250.0) continue;
-      if (j2->PT < 30.0) continue;
-
-      // --------------------------------------------------------
-      // 5. Δφ(jet, MET) requirement (MATCHED WITH DATA/MC)
-      //
-      // Data/MC: require ≥2 jets with Δφ < 2.0
-      //
-      // --------------------------------------------------------
-      int nDPhiSmall = 0;
-      for (int i = 0; i < branchSmallJet->GetEntries(); i++)
-      {
-        Jet *sj = (Jet*) branchSmallJet->At(i);
-        float dphi = fabs(TVector2::Phi_mpi_pi(sj->Phi - phi_met));
-        if (dphi < 2.0) nDPhiSmall++;
-      }
-      if (nDPhiSmall <= 1) continue;
-
-      // --------------------------------------------------------
-      // 6. b-tag veto: fewer than 2 b-tagged jets
-      // (Delphes BTag approximates DL1dv01 truth-level)
-      // --------------------------------------------------------
-      int nBTags = 0;
-      for (int i = 0; i < branchSmallJet->GetEntries(); i++)
-      {
-        Jet *sj = (Jet*) branchSmallJet->At(i);
-        if (sj->BTag == 1) nBTags++;
-      }
-      if (nBTags >= 2) continue;
-
-      // --------------------------------------------------------
-      // 7. tau veto (equivalent intention)
-      // --------------------------------------------------------
-      int nTau = 0;
-      for (int i = 0; i < branchSmallJet->GetEntries(); i++)
-      {
-        Jet *sj = (Jet*) branchSmallJet->At(i);
-        if (sj->TauTag == 1) nTau++;
-      }
-      if (nTau > 0) continue;
+        // Logic to find closest and farthest jet from MET
+        if (dphi < minAbsDPhi) {
+            minAbsDPhi = dphi;
+            jetClosest = jet;
+        }
+        if (dphi > maxAbsDPhi) {
+            maxAbsDPhi = dphi;
+            jetFarthest = jet;
+        }
     }
 
-    // --------------------------------------------------------
-    // 8. Fat jet-derived variables
-    // --------------------------------------------------------
-    float tau21_1 = (fat1 && fat1->Tau[0] > 0) ? fat1->Tau[1]/fat1->Tau[0] : -1;
-    float tau21_2 = (fat2 && fat2->Tau[0] > 0) ? fat2->Tau[1]/fat2->Tau[0] : -1;
-
-    float tau32_1 = (fat1 && fat1->Tau[1] > 0) ? fat1->Tau[2]/fat1->Tau[1] : -1;
-    float tau32_2 = (fat2 && fat2->Tau[1] > 0) ? fat2->Tau[2]/fat2->Tau[1] : -1;
-
-    // safe m_jj: only compute if both fat1 and fat2 exist
-    float m_jj = (fat1 && fat2) ? (fat1->P4() + fat2->P4()).M() : -1;
-
-
-    // --------------------------------------------------------
-    // 9. Minimum Δφ between MET and fat jets
-    // --------------------------------------------------------
-    float dphi_f1 = (fat1) ? fabs(TVector2::Phi_mpi_pi(fat1->Phi - phi_met)) : 1e6;
-    float dphi_f2 = (fat2) ? fabs(TVector2::Phi_mpi_pi(fat2->Phi - phi_met)) : 1e6;
-
-    // Use a large default for min_dphi if any fat jet is missing
-    float min_dphi = std::min(dphi_f1, dphi_f2);
-
-
-    // --------------------------------------------------------
-    // 10. HT (match data/MC definition: sum of small jet pT)
-    // --------------------------------------------------------
-    float ht = 0;
-    for (int i = 0; i < branchSmallJet->GetEntries(); i++)
-    {
-      Jet *sj = (Jet*) branchSmallJet->At(i);
-      ht += sj->PT;
+    // Count Central Jets
+    int nCentral = 0;
+    for(int i=0; i < nSmallJets; i++) {
+        Jet *jet = (Jet*) branchSmallJet->At(i);
+        if(fabs(jet->Eta) < 2.8) nCentral++;
     }
+
+    // Count B-Tags
+    int nBTags = 0;
+    for(int i=0; i < nSmallJets; i++) {
+        Jet *jet = (Jet*) branchSmallJet->At(i);
+        if(jet->BTag == 1) nBTags++;
+    }
+
+    // Count Taus
+    int nTaus = 0;
+    for(int i=0; i < nSmallJets; i++) {
+        Jet *jet = (Jet*) branchSmallJet->At(i);
+        if(jet->TauTag == 1) nTaus++;
+    }
+
+
+    // ==========================================================
+    //                        CUT LOGIC
+    // ==========================================================
+    if (applyCuts) {
+        // 1. At least 2 Small Jets
+        if (nSmallJets < 2) continue;
+
+        // 2. At least 2 Central Jets
+        if (nCentral < 2) continue;
+
+        // 3. Leading Jet pT > 250
+        if (j1->PT < 250.0) continue;
+
+        // 4. Subleading Jet pT > 30
+        if (j2->PT < 30.0) continue;
+
+        // 5. dPhi Logic (At least 2 jets with dPhi < 2.0 / QCD-like)
+        if (nLowDPhi <= 1) continue;
+
+        // 6. B-Tag Veto
+        if (nBTags >= 2) continue;
+
+        // 7. Tau Veto
+        if (nTaus > 0) continue;
+
+        // 8. Electron Veto
+        if (branchElectron->GetEntries() > 0) continue;
+
+        // 9. Muon Veto
+        if (branchMuon->GetEntries() > 0) continue;
+
+        // 10. At least 2 Fat Jets
+        if (nFatJets < 2) continue;
+    }
+    // ==========================================================
+
+
+    // --- Retrieve FatJets safely (check existence) ---
+    Jet *fj1 = (nFatJets > 0) ? (Jet*) branchFatJet->At(0) : nullptr;
+    Jet *fj2 = (nFatJets > 1) ? (Jet*) branchFatJet->At(1) : nullptr;
+
+    // --- Calculate Output Variables ---
+
+    // M_jj (Safe)
+    double m_jj = (fj1 && fj2) ? (fj1->P4() + fj2->P4()).M() : -1.0;
+    double sm_jj = (j1 && j2) ? (j1->P4() + j2->P4()).M() : -1.0;
+
+    // Tau Ratios (Safe)
+    double tau21_j1 = (fj1 && fj1->Tau[0] > 0) ? fj1->Tau[1] / fj1->Tau[0] : -1.0;
+    double tau21_j2 = (fj2 && fj2->Tau[0] > 0) ? fj2->Tau[1] / fj2->Tau[0] : -1.0;
+    double tau32_j1 = (fj1 && fj1->Tau[1] > 0) ? fj1->Tau[2] / fj1->Tau[1] : -1.0;
+    double tau32_j2 = (fj2 && fj2->Tau[1] > 0) ? fj2->Tau[2] / fj2->Tau[1] : -1.0;
+
+    // min_dPhi
+    double min_dPhi = 999.0;
+    if (dphis.size() > 0) {
+        for(double d : dphis) {
+            if(d < min_dPhi) min_dPhi = d;
+        }
+    } else {
+        min_dPhi = -1.0;
+    }
+
+    // HT
+    double ht = 0.0;
+    for(int i=0; i < nSmallJets; i++) {
+        Jet *jet = (Jet*) branchSmallJet->At(i);
+        ht += jet->PT;
+    }
+
+    // --- Calculate pt_balance ---
+    double pt_balance = -1.0;
+    if (jetClosest && jetFarthest) {
+        // Construct pT vectors
+        TVector2 vClose, vFar;
+        vClose.SetMagPhi(jetClosest->PT, jetClosest->Phi);
+        vFar.SetMagPhi(jetFarthest->PT, jetFarthest->Phi);
+
+        // Numerator: Magnitude of Vector Sum |pT1 + pT2|
+        double num = (vClose + vFar).Mod();
+
+        // Denominator: Scalar Sum |pT1| + |pT2|
+        double den = jetClosest->PT + jetFarthest->PT;
+
+        if (den > 0) pt_balance = num / den;
+    }
+
     HepMCEvent *ev = (HepMCEvent*) branchEvent->At(0);
-
-    float weight = ev->Weight;
-    float xsec   = ev->CrossSection;
-
-    // --------------------------------------------------------
-    // Save selected event
-    // --------------------------------------------------------
-    myfile_part 
-    << (fat1 ? fat1->PT  : -1) << " "
-    << (fat1 ? fat1->Eta : -1) << " "
-    << (fat1 ? fat1->Phi : -1) << " "
-    << (fat2 ? fat2->PT  : -1) << " "
-    << (fat2 ? fat2->Eta : -1) << " "
-    << (fat2 ? fat2->Phi : -1) << " "
-    << m_jj << " "
-    << tau21_1 << " " << tau21_2 << " "
-    << tau32_1 << " " << tau32_2 << " "
-    << met << " " << phi_met << " "
-    << min_dphi << " " << ht << " "
-    << weight << " " << xsec
-    << endl;
+    double weight = ev->Weight;
+    double met_val = metObj->MET;
 
 
+    // --- Write to File (using Ternary operators for safety) ---
+    fout << (fj1 ? fj1->PT : -1)  << " " << (fj1 ? fj1->Eta : -1) << " " << (fj1 ? fj1->Phi : -1) << " "
+         << (fj2 ? fj2->PT : -1)  << " " << (fj2 ? fj2->Eta : -1) << " " << (fj2 ? fj2->Phi : -1) << " "
+         << m_jj << " " << sm_jj << " "
+         << tau21_j1 << " " << tau21_j2 << " "
+         << tau32_j1 << " " << tau32_j2 << " "
+         << met_val << " " << phi_met << " "
+         << min_dPhi << " " << ht << " " 
+         << pt_balance << " " // Added pt_balance here
+         << weight
+         << endl;
 
-    nEventSelected++;
+    nSelected++;
   }
 
-  cout << "** Selected events: " << nEventSelected
-       << " / " << allEntries << endl;
+  cout << "** Selected events: " << nSelected << " / " << allEntries << endl;
+  fout.close();
 }
 
 //------------------------------------------------------------------------------
 
-void Analyzer(const char *inputFile, const char *outputFile_part)
+void Analyzer(const char *inputFile, const char *outputFile)
 {
   gSystem->Load("libDelphes");
 
@@ -206,14 +229,13 @@ void Analyzer(const char *inputFile, const char *outputFile_part)
 
   ExRootTreeReader *treeReader = new ExRootTreeReader(chain);
 
-  AnalyseEvents(treeReader, outputFile_part);
-
-  cout << "** Exiting..." << endl;
+  // ----------------------------------------------------
+  // SWITCH: Set this to true (apply cuts) or false (save all)
+  // ----------------------------------------------------
+  bool applyCuts = true; 
+  
+  AnalyseEvents(treeReader, outputFile, applyCuts);
 
   delete treeReader;
   delete chain;
-  exit(0);
 }
-
-//------------------------------------------------------------------------------
-
