@@ -37,7 +37,7 @@ void AnalyseEvents(ExRootTreeReader *treeReader, const char *outputFile, bool ap
   // Added pt_balance to header
   fout << "pT_j1 eta_j1 phi_j1 pT_j2 eta_j2 phi_j2 m_jj sm_jj "
        << "tau21_j1 tau21_j2 tau32_j1 tau32_j2 "
-       << "met phi_met min_dPhi ht pt_balance weight" << endl;
+       << "met phi_met min_dPhi ht pt_balance delta_phi_j1j2 weight" << endl;
 
   int nSelected = 0;
 
@@ -179,6 +179,8 @@ void AnalyseEvents(ExRootTreeReader *treeReader, const char *outputFile, bool ap
 
     // --- Calculate pt_balance ---
     double pt_balance = -1.0;
+    double delta_phi_j1j2 = -1.0;
+
     if (jetClosest && jetFarthest) {
         // Construct pT vectors
         TVector2 vClose, vFar;
@@ -192,6 +194,8 @@ void AnalyseEvents(ExRootTreeReader *treeReader, const char *outputFile, bool ap
         double den = jetClosest->PT + jetFarthest->PT;
 
         if (den > 0) pt_balance = num / den;
+
+        delta_phi_j1j2 = fabs(TVector2::Phi_mpi_pi(jetClosest->Phi - jetFarthest->Phi));
     }
 
     HepMCEvent *ev = (HepMCEvent*) branchEvent->At(0);
@@ -208,6 +212,7 @@ void AnalyseEvents(ExRootTreeReader *treeReader, const char *outputFile, bool ap
          << met_val << " " << phi_met << " "
          << min_dPhi << " " << ht << " " 
          << pt_balance << " " // Added pt_balance here
+         << delta_phi_j1j2 << " "
          << weight
          << endl;
 
