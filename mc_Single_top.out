@@ -1,4 +1,4 @@
-Logging to logs/2025-09-22_run3_Single_top.txt
+Logging to logs/2026-01-21_run48_Single_top.txt
 
 
 === Processing Process Single_top ===
@@ -14,21 +14,21 @@ Selected 1 files (60%)
 --- Dataset mc20_13TeV_MC_PhPy8EG_A14_tchan_BW50_lept_top: 12 files ---
 Selected 8 files (60%)
 [1/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000012.pool.root.1
-[2/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000015.pool.root.1
-[3/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000016.pool.root.1
-[4/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000023.pool.root.1
-[5/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000013.pool.root.1
-[6/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000017.pool.root.1
-[7/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000019.pool.root.1
-[8/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000018.pool.root.1
+[2/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000016.pool.root.1
+[3/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000022.pool.root.1
+[4/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000017.pool.root.1
+[5/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000018.pool.root.1
+[6/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000015.pool.root.1
+[7/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000020.pool.root.1
+[8/8] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621204._000013.pool.root.1
 
 --- Dataset mc20_13TeV_MC_PhPy8EG_A14_tchan_BW50_lept_antitop: 10 files ---
 Selected 6 files (60%)
-[1/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000012.pool.root.1
-[2/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000014.pool.root.1
-[3/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000015.pool.root.1
-[4/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000018.pool.root.1
-[5/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000013.pool.root.1
-[6/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000017.pool.root.1
+[1/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000018.pool.root.1
+[2/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000015.pool.root.1
+[3/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000014.pool.root.1
+[4/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000017.pool.root.1
+[5/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000019.pool.root.1
+[6/6] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621209._000020.pool.root.1
 
-✅ Finished processing Single_top. Results saved in Dataset_ver3/MC/processed/Single_top/
+✅ Finished processing Single_top. Results saved in Dataset_ver4/MC/processed/Single_top/

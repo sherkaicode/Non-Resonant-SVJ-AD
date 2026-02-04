@@ -10,7 +10,16 @@ import random
 
 # Suppress ROOT info/warning messages
 ROOT.gErrorIgnoreLevel = ROOT.kError
+# List of all nested types you suspect are in your rel_branches
+types_to_generate = [
+    "vector<float>",
+    "vector<int>",
+    "vector<double>",
+    "vector<unsigned int>"
+]
 
+for t in types_to_generate:
+    ROOT.gInterpreter.GenerateDictionary(f"ROOT::VecOps::RVec<{t}>", "vector;vector;ROOT/RVec.hxx")
 # ------------------ ARGUMENT PARSING ------------------
 parser = argparse.ArgumentParser(description="Process ATLAS MC datasets")
 parser.add_argument("-process", type=str, required=True,
@@ -47,16 +56,16 @@ print(f"Logging to {log_file}\n")
 atlas_info = {
     "Wjets": {
         "jsons": [
-            # "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_BFilter_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_CFilterBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_CVetoBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_BFilter_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_CFilterBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_CVetoBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_BFilter_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_CFilterBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_CVetoBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2211_Wtaunu_H_maxHTpTV2_BFilter_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_BFilter_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_CFilterBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_CVetoBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_BFilter_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_CFilterBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_CVetoBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_BFilter_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_CFilterBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_CVetoBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2211_Wtaunu_H_maxHTpTV2_BFilter_file_index.json",
             "mc20_13TeV_MC_Sh_2211_Wtaunu_H_maxHTpTV2_CFilterBVeto_file_index.json",
             "mc20_13TeV_MC_Sh_2211_Wtaunu_H_maxHTpTV2_CVetoBVeto_file_index.json"
         ],
@@ -70,9 +79,8 @@ atlas_info = {
             "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_BFilter_file_index.json",
             "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CFilterBVeto_file_index.json",
             "mc20_13TeV_MC_Sh_2211_Znunu_pTV2_CVetoBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_BFilter_file_index.json", # Not Found
-            # "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CFilterBVeto_file_index.json",
-            # "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CVetoBVeto_file_index.json"
+            "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CFilterBVeto_file_index.json",
+            "mc20_13TeV_MC_Sh_2214_Ztautau_maxHTpTV2_CVetoBVeto_file_index.json"
         ],
         "file": "ATLAS_boson.json"
     },
@@ -144,21 +152,57 @@ for process, info in atlas_info.items():
     }
 
 # ------------------ REDUCE ROOT ------------------
-path_reduce_root = "Dataset_ver3/MC/reduce_root"
+path_reduce_root = "Dataset_ver4/MC/reduce_root"
 os.makedirs(path_reduce_root, exist_ok=True)
 
 rel_branches = [
-    "AnalysisJetsAuxDyn.eta", "AnalysisJetsAuxDyn.pt", "AnalysisJetsAuxDyn.NNJvtPass",
-    "AnalysisJetsAuxDyn.phi", "AnalysisTauJetsAuxDyn.JetDeepSetTight",
-    "AnalysisElectronsAuxDyn.DFCommonElectronsLHTight", "AnalysisMuonsAuxDyn.muonType",
-    "AnalysisMuonsAuxDyn.quality", "MET_Core_AnalysisMETAuxDyn.mpx",
-    "MET_Core_AnalysisMETAuxDyn.mpy", "MET_Core_AnalysisMETAuxDyn.sumet",
-    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pu", "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pc",
-    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pb", "AnalysisJetsAuxDyn.m",
-    "AnalysisLargeRJetsAuxDyn.pt", "AnalysisLargeRJetsAuxDyn.eta", "AnalysisLargeRJetsAuxDyn.phi",
-    "AnalysisLargeRJetsAuxDyn.m", "AnalysisLargeRJetsAuxDyn.Tau1_wta",
-    "AnalysisLargeRJetsAuxDyn.Tau2_wta", "AnalysisLargeRJetsAuxDyn.Tau3_wta", 
-    "EventInfoAuxDyn.mcEventWeights"
+    # --- Global Event & MET ---
+    "MET_Core_AnalysisMETAuxDyn.mpx",
+    "MET_Core_AnalysisMETAuxDyn.mpy",
+    "MET_Core_AnalysisMETAuxDyn.sumet",
+    "EventInfoAuxDyn.mcEventWeights",
+    "EventInfoAuxDyn.DFCommonJets_eventClean_LooseBad", # Required for jet cleaning
+    "EventInfoAuxDyn.runNumber", 
+    
+    # --- Small-R Jets (Selection & Cleaning) ---
+    "AnalysisJetsAuxDyn.pt",
+    "AnalysisJetsAuxDyn.eta",
+    "AnalysisJetsAuxDyn.phi",
+    "AnalysisJetsAuxDyn.NNJvtPass",
+    "AnalysisJetsAuxDyn.SumPtTrkPt500",    # Required for f_ch cleaning
+    "AnalysisJetsAuxDyn.EnergyPerSampling", # Required for f_max cleaning
+    "AnalysisJetsAuxDyn.NumTrkPt500",       # Required for Overlap Removal logic
+    
+    # --- Large-R Jets (AD Features - Expanded) ---
+    "AnalysisLargeRJetsAuxDyn.pt",
+    "AnalysisLargeRJetsAuxDyn.eta",
+    "AnalysisLargeRJetsAuxDyn.phi",
+    "AnalysisLargeRJetsAuxDyn.m",
+    "AnalysisLargeRJetsAuxDyn.Tau1_wta",
+    "AnalysisLargeRJetsAuxDyn.Tau2_wta",
+    "AnalysisLargeRJetsAuxDyn.Tau3_wta",
+    "AnalysisLargeRJetsAuxDyn.D2", # Highly recommended for AD
+    "AnalysisLargeRJetsAuxDyn.C2", # Highly recommended for AD
+    
+    # --- Lepton & Tau Vetoes ---
+    "AnalysisElectronsAuxDyn.pt",
+    "AnalysisElectronsAuxDyn.eta",
+    "AnalysisElectronsAuxDyn.phi",
+    "AnalysisElectronsAuxDyn.DFCommonElectronsLHTight",
+    "AnalysisMuonsAuxDyn.pt",
+    "AnalysisMuonsAuxDyn.eta",
+    "AnalysisMuonsAuxDyn.phi",
+    "AnalysisMuonsAuxDyn.muonType",
+    "AnalysisMuonsAuxDyn.quality",
+    "AnalysisTauJetsAuxDyn.pt",
+    "AnalysisTauJetsAuxDyn.eta",
+    "AnalysisTauJetsAuxDyn.phi",
+    "AnalysisTauJetsAuxDyn.JetDeepSetTight",
+    
+    # --- Flavor Tagging ---
+    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pu",
+    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pc",
+    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pb"
 ]
 
 def reduce_root(process, dataset, link, c):
@@ -180,13 +224,54 @@ def make_dataset(process, dataset, c, reduce_root_file, outdir):
     df = ROOT.RDataFrame(chain)
 
     branches = [
-        "AnalysisJetsAuxDyn_eta", "AnalysisJetsAuxDyn_pt", "AnalysisJetsAuxDyn_NNJvtPass", "AnalysisJetsAuxDyn_phi",
-        "AnalysisTauJetsAuxDyn_JetDeepSetTight", "AnalysisElectronsAuxDyn_DFCommonElectronsLHTight", "AnalysisMuonsAuxDyn_muonType", "AnalysisMuonsAuxDyn_quality",
-        "MET_Core_AnalysisMETAuxDyn_mpx", "MET_Core_AnalysisMETAuxDyn_mpy", "MET_Core_AnalysisMETAuxDyn_sumet",
-        "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pu", "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pc", "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pb",
-        "AnalysisLargeRJetsAuxDyn_pt", "AnalysisLargeRJetsAuxDyn_eta", "AnalysisLargeRJetsAuxDyn_phi",
-        "AnalysisLargeRJetsAuxDyn_m", "AnalysisLargeRJetsAuxDyn_Tau1_wta", "AnalysisLargeRJetsAuxDyn_Tau2_wta", "AnalysisLargeRJetsAuxDyn_Tau3_wta",
-        "EventInfoAuxDyn_mcEventWeights"
+        # --- Global Event & MET ---
+        "MET_Core_AnalysisMETAuxDyn_mpx",
+        "MET_Core_AnalysisMETAuxDyn_mpy",
+        "MET_Core_AnalysisMETAuxDyn_sumet",
+        "EventInfoAuxDyn_mcEventWeights",
+        "EventInfoAuxDyn_DFCommonJets_eventClean_LooseBad",
+        "EventInfoAuxDyn_runNumber", 
+
+        # --- Small-R Jets (Selection, Cleaning, & OR) ---
+        "AnalysisJetsAuxDyn_pt",
+        "AnalysisJetsAuxDyn_eta",
+        "AnalysisJetsAuxDyn_phi",
+        "AnalysisJetsAuxDyn_m",
+        "AnalysisJetsAuxDyn_NNJvtPass",
+        "AnalysisJetsAuxDyn_SumPtTrkPt500",    # For f_ch calculation
+        "AnalysisJetsAuxDyn_EnergyPerSampling", # For f_max calculation
+        "AnalysisJetsAuxDyn_NumTrkPt500",       # For Overlap Removal
+
+        # --- Large-R Jets (AD Training Features) ---
+        "AnalysisLargeRJetsAuxDyn_pt",
+        "AnalysisLargeRJetsAuxDyn_eta",
+        "AnalysisLargeRJetsAuxDyn_phi",
+        "AnalysisLargeRJetsAuxDyn_m",
+        "AnalysisLargeRJetsAuxDyn_Tau1_wta",
+        "AnalysisLargeRJetsAuxDyn_Tau2_wta",
+        "AnalysisLargeRJetsAuxDyn_Tau3_wta",
+        "AnalysisLargeRJetsAuxDyn_D2",          # Key substructure discriminator
+        "AnalysisLargeRJetsAuxDyn_C2",          # Key substructure discriminator
+
+        # --- Lepton & Tau Vetoes ---
+        "AnalysisElectronsAuxDyn_pt",
+        "AnalysisElectronsAuxDyn_eta",
+        "AnalysisElectronsAuxDyn_phi",
+        "AnalysisElectronsAuxDyn_DFCommonElectronsLHTight",
+        "AnalysisMuonsAuxDyn_pt",
+        "AnalysisMuonsAuxDyn_eta",
+        "AnalysisMuonsAuxDyn_phi",
+        "AnalysisMuonsAuxDyn_muonType",
+        "AnalysisMuonsAuxDyn_quality",
+        "AnalysisTauJetsAuxDyn_pt",
+        "AnalysisTauJetsAuxDyn_eta",
+        "AnalysisTauJetsAuxDyn_phi",
+        "AnalysisTauJetsAuxDyn_JetDeepSetTight",
+
+        # --- Flavor Tagging ---
+        "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pu",
+        "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pc",
+        "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pb"
     ]
 
     data = df.AsNumpy(branches)
@@ -283,13 +368,13 @@ for dataset_name, links in datasets.items():
     print(f"Selected {n_select} files (60%)")
 
     reduce_outdir = f"{path_reduce_root}/{process_to_run}/{dataset_name}"
-    dataset_outdir = f"Dataset_ver3/MC/processed/{process_to_run}/{dataset_name}"
+    dataset_outdir = f"Dataset_ver4/MC/processed/{process_to_run}/{dataset_name}"
     os.makedirs(dataset_outdir, exist_ok=True)
 
     for c, link in enumerate(selected_links):
         print(f"[{c+1}/{n_select}] Processing {link}")
         reduce_root(process_to_run, dataset_name, link, c)
         reduced_file = f"{reduce_outdir}/root_{c}.root"
-        make_dataset(process_to_run, dataset_name, c, reduced_file, dataset_outdir)
+        # make_dataset(process_to_run, dataset_name, c, reduced_file, dataset_outdir)
 
-print(f"\n✅ Finished processing {process_to_run}. Results saved in Dataset_ver3/MC/processed/{process_to_run}/")
+print(f"\n✅ Finished processing {process_to_run}. Results saved in Dataset_ver4/MC/processed/{process_to_run}/")

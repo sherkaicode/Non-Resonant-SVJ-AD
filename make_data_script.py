@@ -14,7 +14,16 @@ selected_period = args.period
 
 # Suppress ROOT info/warning messages
 ROOT.gErrorIgnoreLevel = ROOT.kError
+# List of all nested types you suspect are in your rel_branches
+types_to_generate = [
+    "vector<float>",
+    "vector<int>",
+    "vector<double>",
+    "vector<unsigned int>"
+]
 
+for t in types_to_generate:
+    ROOT.gInterpreter.GenerateDictionary(f"ROOT::VecOps::RVec<{t}>", "vector;vector;ROOT/RVec.hxx")
 # ------------------ LOGGING ------------------
 log_dir = "logs"
 os.makedirs(log_dir, exist_ok=True)
@@ -57,18 +66,14 @@ def get_root_links(run):
 period_runs = {
     "B": ["300908","300863","300800","300784","300687","300655","300600","300571","300540","300487","300418","300415","300345"],
     "C": ["302393","302391","302380","302347","302300","302269","302265","302137","302053","301973","301932","301918","301915","301912"],
-    # "D": ["303560","303499","303421","303338","303304","303291","303266","303264","303208","303201","303079","303059","303007",
-    "D": ["302956","302925","302919","302872","302831","302829","302737"],
+    "D": ["303560","303499","303421","303338","303304","303291","303266","303264","303208","303201","303079","303059","303007", "302956","302925","302919","302872","302831","302829","302737"],
     "E": ["303892","303846","303832","303819","303817","303811","303726","303638"],
     "F": ["304494","304431","304409","304337","304308","304243","304211","304198","304178","304128","304008","304006","303943"],
-    # "G": ["306451","306448","306442","306419","306384","306310","306278","306269","305920","305811","305777","305735","305727","305723","305674","305671",
-    "G": ["305618","305571","305543","305380","305293"],
-    # "I": ["308084","308047","307935","307861","307732","307716","307710","307656","307619","307601","307569","307539","307514","307454","307394",
-    "I": ["307358","307354","307306","307259","307195","307126","307124"],
+    "G": ["306451","306448","306442","306419","306384","306310","306278","306269","305920","305811","305777","305735","305727","305723","305674","305671", "305618","305571","305543","305380","305293"],
+    "I": ["308084","308047","307935","307861","307732","307716","307710","307656","307619","307601","307569","307539","307514","307454","307394", "307358","307354","307306","307259","307195","307126","307124"],
     "K": ["309759","309674","309640","309516","309440","309390","309375"],
     "A": ["297730","298595","298609","298633","298687","298690","298771","298773","298862","298967","299055","299144","299147","299184","299241","299243","299288","299315","299340","299343","299390","299584","300279","300287"],
-    # "L": ["310210","310247","310249","310341","310370","310405","310468","310473","310574","310634","310691","310738","310781",
-    "L": ["310809","310863","310872","310969","311071","311170","311244","311287","311321","311365","311402","311473","311481"]
+    "L": ["310210","310247","310249","310341","310370","310405","310468","310473","310574","310634","310691","310738","310781", "310809","310863","310872","310969","311071","311170","311244","311287","311321","311365","311402","311473","311481"]
 }
 
 # Convert to dictionary of {period: {run: links}}
@@ -78,32 +83,57 @@ all_periods = {
 }
 
 # ------------------ REDUCE ROOT ------------------
-path_reduce_root = "Dataset_ver2/Data/reduce_root"
+path_reduce_root = "Dataset_ver4/Data/reduce_root"
 os.makedirs(path_reduce_root, exist_ok=True)
 
 rel_branches = [
-    "AnalysisJetsAuxDyn.eta",
-    "AnalysisJetsAuxDyn.pt",
-    "AnalysisJetsAuxDyn.NNJvtPass",
-    "AnalysisJetsAuxDyn.phi",
-    "AnalysisTauJetsAuxDyn.JetDeepSetTight",
-    "AnalysisElectronsAuxDyn.DFCommonElectronsLHTight",
-    "AnalysisMuonsAuxDyn.muonType",
-    "AnalysisMuonsAuxDyn.quality",
+    # --- Global Event & MET ---
     "MET_Core_AnalysisMETAuxDyn.mpx",
     "MET_Core_AnalysisMETAuxDyn.mpy",
     "MET_Core_AnalysisMETAuxDyn.sumet",
-    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pu",
-    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pc",
-    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pb",
-    "AnalysisJetsAuxDyn.m",
+    "EventInfoAuxDyn.mcEventWeights",
+    "EventInfoAuxDyn.DFCommonJets_eventClean_LooseBad", # Required for jet cleaning
+    "EventInfoAuxDyn.runNumber", 
+    
+    # --- Small-R Jets (Selection & Cleaning) ---
+    "AnalysisJetsAuxDyn.pt",
+    "AnalysisJetsAuxDyn.eta",
+    "AnalysisJetsAuxDyn.phi",
+    "AnalysisJetsAuxDyn.NNJvtPass",
+    "AnalysisJetsAuxDyn.SumPtTrkPt500",    # Required for f_ch cleaning
+    "AnalysisJetsAuxDyn.EnergyPerSampling", # Required for f_max cleaning
+    "AnalysisJetsAuxDyn.NumTrkPt500",       # Required for   Overlap Removal logic
+    
+    # --- Large-R Jets (AD Features - Expanded) ---
     "AnalysisLargeRJetsAuxDyn.pt",
     "AnalysisLargeRJetsAuxDyn.eta",
     "AnalysisLargeRJetsAuxDyn.phi",
     "AnalysisLargeRJetsAuxDyn.m",
     "AnalysisLargeRJetsAuxDyn.Tau1_wta",
     "AnalysisLargeRJetsAuxDyn.Tau2_wta",
-    "AnalysisLargeRJetsAuxDyn.Tau3_wta"
+    "AnalysisLargeRJetsAuxDyn.Tau3_wta",
+    "AnalysisLargeRJetsAuxDyn.D2", # Highly recommended for AD
+    "AnalysisLargeRJetsAuxDyn.C2", # Highly recommended for AD
+    
+    # --- Lepton & Tau Vetoes ---
+    "AnalysisElectronsAuxDyn.pt",
+    "AnalysisElectronsAuxDyn.eta",
+    "AnalysisElectronsAuxDyn.phi",
+    "AnalysisElectronsAuxDyn.DFCommonElectronsLHTight",
+    "AnalysisMuonsAuxDyn.pt",
+    "AnalysisMuonsAuxDyn.eta",
+    "AnalysisMuonsAuxDyn.phi",
+    "AnalysisMuonsAuxDyn.muonType",
+    "AnalysisMuonsAuxDyn.quality",
+    "AnalysisTauJetsAuxDyn.pt",
+    "AnalysisTauJetsAuxDyn.eta",
+    "AnalysisTauJetsAuxDyn.phi",
+    "AnalysisTauJetsAuxDyn.JetDeepSetTight",
+    
+    # --- Flavor Tagging ---
+    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pu",
+    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pc",
+    "BTagging_AntiKt4EMPFlowAuxDyn.DL1dv01_pb"
 ]
 
 def reduce_root(period, run, link, c):
@@ -125,12 +155,54 @@ def make_dataset(period, run, c, reduce_root_file, outdir):
     df = ROOT.RDataFrame(chain)
 
     branches = [
-        "AnalysisJetsAuxDyn_eta", "AnalysisJetsAuxDyn_pt", "AnalysisJetsAuxDyn_NNJvtPass", "AnalysisJetsAuxDyn_phi",
-        "AnalysisTauJetsAuxDyn_JetDeepSetTight", "AnalysisElectronsAuxDyn_DFCommonElectronsLHTight", "AnalysisMuonsAuxDyn_muonType", "AnalysisMuonsAuxDyn_quality",
-        "MET_Core_AnalysisMETAuxDyn_mpx", "MET_Core_AnalysisMETAuxDyn_mpy", "MET_Core_AnalysisMETAuxDyn_sumet",
-        "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pu", "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pc", "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pb",
-        "AnalysisLargeRJetsAuxDyn_pt", "AnalysisLargeRJetsAuxDyn_eta", "AnalysisLargeRJetsAuxDyn_phi",
-        "AnalysisLargeRJetsAuxDyn_m", "AnalysisLargeRJetsAuxDyn_Tau1_wta", "AnalysisLargeRJetsAuxDyn_Tau2_wta", "AnalysisLargeRJetsAuxDyn_Tau3_wta"
+        # --- Global Event & MET ---
+        "MET_Core_AnalysisMETAuxDyn_mpx",
+        "MET_Core_AnalysisMETAuxDyn_mpy",
+        "MET_Core_AnalysisMETAuxDyn_sumet",
+        # "EventInfoAuxDyn_mcEventWeights",
+        "EventInfoAuxDyn_DFCommonJets_eventClean_LooseBad",
+        "EventInfoAuxDyn_runNumber", 
+
+        # --- Small-R Jets (Selection, Cleaning, & OR) ---
+        "AnalysisJetsAuxDyn_pt",
+        "AnalysisJetsAuxDyn_eta",
+        "AnalysisJetsAuxDyn_phi",
+        "AnalysisJetsAuxDyn_m",
+        "AnalysisJetsAuxDyn_NNJvtPass",
+        "AnalysisJetsAuxDyn_SumPtTrkPt500",    # For f_ch calculation
+        "AnalysisJetsAuxDyn_EnergyPerSampling", # For f_max calculation
+        "AnalysisJetsAuxDyn_NumTrkPt500",       # For Overlap Removal
+
+        # --- Large-R Jets (AD Training Features) ---
+        "AnalysisLargeRJetsAuxDyn_pt",
+        "AnalysisLargeRJetsAuxDyn_eta",
+        "AnalysisLargeRJetsAuxDyn_phi",
+        "AnalysisLargeRJetsAuxDyn_m",
+        "AnalysisLargeRJetsAuxDyn_Tau1_wta",
+        "AnalysisLargeRJetsAuxDyn_Tau2_wta",
+        "AnalysisLargeRJetsAuxDyn_Tau3_wta",
+        "AnalysisLargeRJetsAuxDyn_D2",          # Key substructure discriminator
+        "AnalysisLargeRJetsAuxDyn_C2",          # Key substructure discriminator
+
+        # --- Lepton & Tau Vetoes ---
+        "AnalysisElectronsAuxDyn_pt",
+        "AnalysisElectronsAuxDyn_eta",
+        "AnalysisElectronsAuxDyn_phi",
+        "AnalysisElectronsAuxDyn_DFCommonElectronsLHTight",
+        "AnalysisMuonsAuxDyn_pt",
+        "AnalysisMuonsAuxDyn_eta",
+        "AnalysisMuonsAuxDyn_phi",
+        "AnalysisMuonsAuxDyn_muonType",
+        "AnalysisMuonsAuxDyn_quality",
+        "AnalysisTauJetsAuxDyn_pt",
+        "AnalysisTauJetsAuxDyn_eta",
+        "AnalysisTauJetsAuxDyn_phi",
+        "AnalysisTauJetsAuxDyn_JetDeepSetTight",
+
+        # --- Flavor Tagging ---
+        "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pu",
+        "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pc",
+        "BTagging_AntiKt4EMPFlowAuxDyn_DL1dv01_pb"
     ]
 
     data = df.AsNumpy(branches)
@@ -185,9 +257,9 @@ def make_dataset(period, run, c, reduce_root_file, outdir):
             dphis = [abs(ROOT.TVector2.Phi_mpi_pi(jphi - phi_met)) for jphi in jet_phi]
             if np.sum(np.array(dphis) < 2.0) <= 1: continue
             if np.sum(np.log(pb/(fc*pc + (1-fc)*pu)) > cut_77) >= 2: continue
-            if np.sum(tau_tight == 1) > 0: continue
-            if np.sum(electron_tight == 1) > 0: continue
-            if np.sum(muon_Type == 0) > 0 and (np.sum((muon_Qual == 8) | (muon_Qual == 9) > 0)): continue
+            if np.sum(tau_tight == 1) > 0: continue  # Lepton veto
+            if np.sum(electron_tight == 1) > 0: continue # Lepton veto
+            if np.sum(muon_Type == 0) > 0 and (np.sum((muon_Qual == 8) | (muon_Qual == 9) > 0)): continue # Lepton veto
             if len(fat_pt) < 2: continue
 
             j1 = ROOT.TLorentzVector(); j1.SetPtEtaPhiM(fat_pt[0], fat_eta[0], fat_phi[0], fat_m[0])
@@ -225,18 +297,18 @@ for run, links in all_periods[selected_period].items():
     print(f"\n--- Processing run: {run}")
     run_count += 1
     c = 0
-    outdir = f"Dataset_ver2/Data/predataset/{selected_period}/run{run}"
+    outdir = f"Dataset_ver4/Data/predataset/{selected_period}/run{run}"
     for link in links:
         reduce_file = f"{path_reduce_root}/{selected_period}/run{run}/root_{run}_{c}.root"
         if not os.path.exists(reduce_file):
             reduce_root(selected_period, run, link, c)
             reduce_count += 1
-        make_dataset(selected_period, run, c, reduce_file, outdir)
+        # make_dataset(selected_period, run, c, reduce_file, outdir)
         dataset_count += 1
         c += 1
 
 print(f"Summary for Period {selected_period}:")
 print(f"  Runs processed:   {run_count}")
 print(f"  Reduced ROOTs:    {reduce_count}")
-print(f"  Dataset files:    {dataset_count}")
+# print(f"  Dataset files:    {dataset_count}")
 print("=================================")
