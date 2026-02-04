@@ -1,0 +1,8 @@
+Logging to logs/2026-01-21_run33_ttbar.txt
+
+
+=== Processing Process ttbar ===
+
+--- Dataset mc20_13TeV_MC_PhPy8EG_A14_ttbar_hdamp258p75_nonallhad: 190 files ---
+Selected 114 files (60%)
+[1/114] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37620646._000263.pool.root.1

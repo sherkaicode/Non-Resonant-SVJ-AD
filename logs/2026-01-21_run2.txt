@@ -1,0 +1,36 @@
+Logging to logs/2026-01-21_run2.txt
+
+
+=== Processing Period C ===
+
+--- Processing run: 302393
+
+--- Processing run: 302391
+
+--- Processing run: 302380
+
+--- Processing run: 302347
+
+--- Processing run: 302300
+
+--- Processing run: 302269
+
+--- Processing run: 302265
+
+--- Processing run: 302137
+
+--- Processing run: 302053
+
+--- Processing run: 301973
+
+--- Processing run: 301932
+
+--- Processing run: 301918
+
+--- Processing run: 301915
+
+--- Processing run: 301912
+Summary for Period C:
+  Runs processed:   14
+  Reduced ROOTs:    0
+=================================

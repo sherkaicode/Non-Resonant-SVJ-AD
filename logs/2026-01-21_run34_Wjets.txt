@@ -1,0 +1,8 @@
+Logging to logs/2026-01-21_run34_Wjets.txt
+
+
+=== Processing Process Wjets ===
+
+--- Dataset mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_BFilter: 111 files ---
+Selected 67 files (60%)
+[1/67] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.37621595._000153.pool.root.1

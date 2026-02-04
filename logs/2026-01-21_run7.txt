@@ -1,0 +1,52 @@
+Logging to logs/2026-01-21_run7.txt
+
+
+=== Processing Period I ===
+
+--- Processing run: 308084
+
+--- Processing run: 308047
+
+--- Processing run: 307935
+
+--- Processing run: 307861
+
+--- Processing run: 307732
+
+--- Processing run: 307716
+
+--- Processing run: 307710
+
+--- Processing run: 307656
+
+--- Processing run: 307619
+
+--- Processing run: 307601
+
+--- Processing run: 307569
+
+--- Processing run: 307539
+
+--- Processing run: 307514
+
+--- Processing run: 307454
+
+--- Processing run: 307394
+
+--- Processing run: 307358
+
+--- Processing run: 307354
+
+--- Processing run: 307306
+
+--- Processing run: 307259
+
+--- Processing run: 307195
+
+--- Processing run: 307126
+
+--- Processing run: 307124
+Summary for Period I:
+  Runs processed:   22
+  Reduced ROOTs:    0
+=================================

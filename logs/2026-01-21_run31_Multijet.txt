@@ -1,0 +1,8 @@
+Logging to logs/2026-01-21_run31_Multijet.txt
+
+
+=== Processing Process Multijet ===
+
+--- Dataset mc20_13TeV_MC_Pythia8EvtGen_A14NNPDF23LO_jetjet_JZ0WithSW: 224 files ---
+Selected 135 files (60%)
+[1/135] Processing root://eospublic.cern.ch//eos/opendata/atlas/rucio/mc20_13TeV/DAOD_PHYSLITE.38191418._000011.pool.root.1

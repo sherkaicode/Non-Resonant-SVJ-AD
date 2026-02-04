@@ -1,0 +1,60 @@
+Logging to logs/2026-01-21_run9.txt
+
+
+=== Processing Period L ===
+
+--- Processing run: 310210
+
+--- Processing run: 310247
+
+--- Processing run: 310249
+
+--- Processing run: 310341
+
+--- Processing run: 310370
+
+--- Processing run: 310405
+
+--- Processing run: 310468
+
+--- Processing run: 310473
+
+--- Processing run: 310574
+
+--- Processing run: 310634
+
+--- Processing run: 310691
+
+--- Processing run: 310738
+
+--- Processing run: 310781
+
+--- Processing run: 310809
+
+--- Processing run: 310863
+
+--- Processing run: 310872
+
+--- Processing run: 310969
+
+--- Processing run: 311071
+
+--- Processing run: 311170
+
+--- Processing run: 311244
+
+--- Processing run: 311287
+
+--- Processing run: 311321
+
+--- Processing run: 311365
+
+--- Processing run: 311402
+
+--- Processing run: 311473
+
+--- Processing run: 311481
+Summary for Period L:
+  Runs processed:   26
+  Reduced ROOTs:    0
+=================================

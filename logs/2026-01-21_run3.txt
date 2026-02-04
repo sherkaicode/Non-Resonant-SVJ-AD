@@ -1,0 +1,48 @@
+Logging to logs/2026-01-21_run3.txt
+
+
+=== Processing Period D ===
+
+--- Processing run: 303560
+
+--- Processing run: 303499
+
+--- Processing run: 303421
+
+--- Processing run: 303338
+
+--- Processing run: 303304
+
+--- Processing run: 303291
+
+--- Processing run: 303266
+
+--- Processing run: 303264
+
+--- Processing run: 303208
+
+--- Processing run: 303201
+
+--- Processing run: 303079
+
+--- Processing run: 303059
+
+--- Processing run: 303007
+
+--- Processing run: 302956
+
+--- Processing run: 302925
+
+--- Processing run: 302919
+
+--- Processing run: 302872
+
+--- Processing run: 302831
+
+--- Processing run: 302829
+
+--- Processing run: 302737
+Summary for Period D:
+  Runs processed:   20
+  Reduced ROOTs:    0
+=================================
