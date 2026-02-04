@@ -123,8 +123,8 @@ void AnalyseEvents(ExRootTreeReader *treeReader, const char *outputFile, bool ap
         // 4. Subleading Jet pT > 30
         if (j2->PT < 30.0) continue;
 
-        // 5. dPhi Logic (At least 2 jets with dPhi < 2.0 / QCD-like)
-        if (nLowDPhi <= 1) continue;
+        // 5. dPhi Logic (At least 1 jets with dPhi < 2.0 / QCD-like)
+        if (nLowDPhi == 0) continue;
 
         // 6. B-Tag Veto
         if (nBTags >= 2) continue;
@@ -132,14 +132,45 @@ void AnalyseEvents(ExRootTreeReader *treeReader, const char *outputFile, bool ap
         // 7. Tau Veto
         if (nTaus > 0) continue;
 
-        // 8. Electron Veto
-        if (branchElectron->GetEntries() > 0) continue;
+        // // 8. Electron Veto
+        // if (branchElectron->GetEntries() > 0) continue;
 
-        // 9. Muon Veto
-        if (branchMuon->GetEntries() > 0) continue;
+        // // 9. Muon Veto
+        // if (branchMuon->GetEntries() > 0) continue;
 
         // 10. At least 2 Fat Jets
-        if (nFatJets < 2) continue;
+        // if (nFatJets < 2) continue;
+
+        if (metObj->MET < 250.0) continue;
+
+        // 8. Electron Veto (No electrons with pT > 7 GeV)
+        bool failElectron = false;
+        for(int i=0; i < branchElectron->GetEntries(); ++i) {
+            Electron *ele = (Electron*) branchElectron->At(i);
+            if(ele->PT > 7.0) { failElectron = true; break; }
+        }
+        if (failElectron) continue;
+
+        // 9. Muon Veto (No muons with pT > 7 GeV)
+        bool failMuon = false;
+        for(int i=0; i < branchMuon->GetEntries(); ++i) {
+            Muon *mu = (Muon*) branchMuon->At(i);
+            if(mu->PT > 7.0) { failMuon = true; break; }
+        }
+        if (failMuon) continue;
+
+        // 10. SR Kinematics: MET > 600 GeV
+        if (metObj->MET < 600.0) continue;
+
+        // 11. SR Kinematics: HT > 600 GeV
+        // (HT is calculated as the scalar sum of pT of all small jets)
+        double ht_val = 0.0;
+        for(int i=0; i < nSmallJets; i++) {
+            Jet *jet = (Jet*) branchSmallJet->At(i);
+            ht_val += jet->PT;
+        }
+        if (ht_val < 600.0) continue;
+        
     }
     // ==========================================================
 
