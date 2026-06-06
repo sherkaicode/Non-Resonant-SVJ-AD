@@ -6,6 +6,8 @@
 #SBATCH --ntasks=2
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
+#SBATCH --nodelist=uranus
+
 
 # Move into project directory
 cd /home/aegis/ether/Research_HEP

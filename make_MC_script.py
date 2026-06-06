@@ -56,12 +56,12 @@ print(f"Logging to {log_file}\n")
 atlas_info = {
     "Wjets": {
         "jsons": [
-            "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_BFilter_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_CFilterBVeto_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_CVetoBVeto_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_BFilter_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_CFilterBVeto_file_index.json",
-            "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_CVetoBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_BFilter_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_CFilterBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Wenu_maxHTpTV2_CVetoBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_BFilter_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_CFilterBVeto_file_index.json",
+            # "mc20_13TeV_MC_Sh_2211_Wmunu_maxHTpTV2_CVetoBVeto_file_index.json",
             "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_BFilter_file_index.json",
             "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_CFilterBVeto_file_index.json",
             "mc20_13TeV_MC_Sh_2211_Wtaunu_L_maxHTpTV2_CVetoBVeto_file_index.json",
