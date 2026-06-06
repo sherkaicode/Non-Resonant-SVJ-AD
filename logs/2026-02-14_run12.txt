@@ -1,0 +1,12 @@
+Logging to logs/2026-02-14_run12.txt
+
+
+=== Processing Period G ===
+
+--- Processing run: 305380
+
+--- Processing run: 305293
+Summary for Period G:
+  Runs processed:   2
+  Reduced ROOTs:    386
+=================================

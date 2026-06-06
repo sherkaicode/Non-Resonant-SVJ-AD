@@ -1,0 +1,18 @@
+Logging to logs/2026-02-17_run3.txt
+
+
+=== Processing Period L ===
+
+--- Processing run: 311321
+
+--- Processing run: 311365
+
+--- Processing run: 311402
+
+--- Processing run: 311473
+
+--- Processing run: 311481
+Summary for Period L:
+  Runs processed:   5
+  Reduced ROOTs:    1683
+=================================

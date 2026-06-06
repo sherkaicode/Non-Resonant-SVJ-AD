@@ -1,0 +1,6 @@
+Logging to logs/2026-02-14_run4.txt
+
+
+=== Processing Period D ===
+
+--- Processing run: 303201

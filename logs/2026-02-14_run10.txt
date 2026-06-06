@@ -1,0 +1,16 @@
+Logging to logs/2026-02-14_run10.txt
+
+
+=== Processing Period C ===
+
+--- Processing run: 301932
+
+--- Processing run: 301918
+
+--- Processing run: 301915
+
+--- Processing run: 301912
+Summary for Period C:
+  Runs processed:   4
+  Reduced ROOTs:    523
+=================================
