@@ -32,4 +32,6 @@ NRAD/SemiVisJets/
 Branches_Info/zVertex.root
 mc_datasets_2024r_pp.csv
 NRAD/data/MC_Events/*.err
-NRAD/data/MC_Events/*.err
+NRAD/data/MC_Events/
+data_I.err
+mc_wjets.err
