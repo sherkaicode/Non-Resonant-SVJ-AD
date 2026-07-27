@@ -12,4 +12,4 @@
 cd /home/aegis/ether/Research_HEP
 
 # Run Python script
-python3 make_MC_script.py -process Wjets
+python3 make_MC_script_MI.py -process Wjets

@@ -35,3 +35,7 @@ NRAD/data/MC_Events/*.err
 NRAD/data/MC_Events/
 data_I.err
 mc_wjets.err
+
+AutoDict*
+
+NRAD_Dataset/
